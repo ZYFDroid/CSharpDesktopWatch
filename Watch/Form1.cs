@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
 using System.Reflection;
@@ -189,6 +190,31 @@ namespace Watch
         }
 
 
+        public void drawAlphaImage(Graphics g, Image image, float x, float y, float w, float h, float alpha)
+        {
+            if (alpha >= 0.999)
+            {
+                g.DrawImage(image, x, y, w, h);
+                return;
+            }
+            g.DrawImage(image, new Rectangle((int)x, (int)y, (int)w, (int)h), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, alphaImage(alpha));
+        }
+        ImageAttributes alphaAttrs = new ImageAttributes();
+        ColorMatrix cmx = new ColorMatrix(new float[][]{
+                new float[5]{ 1,0,0,0,0 },
+                new float[5]{ 0,1,0,0,0 },
+                new float[5]{ 0,0,1,0,0 },
+                new float[5]{ 0,0,0,0.5f,0 },
+                new float[5]{ 0,0,0,0,0 }
+            });
+        public ImageAttributes alphaImage(float alpha)
+        {
+            cmx.Matrix33 = alpha;
+            alphaAttrs.SetColorMatrix(cmx, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            return alphaAttrs;
+        }
+
+
         bool haveHandle = false;
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -294,7 +320,7 @@ namespace Watch
             {
                 Bitmap tmp;
                 tmp = clockface;
-                clockface = new Bitmap(clockface, ClientSize);
+                clockface = new Bitmap(clockface,picClockFace.Size);
                 tmp.Dispose();
                 tmp = hand_hour;
                 hand_hour = new Bitmap(hand_hour, clocksize.Size);
@@ -329,7 +355,7 @@ namespace Watch
             }
 
             this.thisGraphics.Clear(Color.FromArgb(0x007f7f00));
-            this.thisGraphics.DrawImage(clockface, 0, 0);
+            this.thisGraphics.DrawImage(clockface, picClockFace.Left,picClockFace.Top);
 
             if (IsClockMode)
             {
@@ -691,6 +717,11 @@ namespace Watch
         private void toolStripMenuItem10_MouseDown(object sender, MouseEventArgs e)
         {
             clickSound.Play();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            contextMenuStrip1.Show((Control)sender, Point.Empty);
         }
 
         private void button1_MouseUp(object sender, MouseEventArgs e)

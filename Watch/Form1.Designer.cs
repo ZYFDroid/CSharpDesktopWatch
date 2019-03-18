@@ -71,9 +71,11 @@
             this.millisecOption = new System.Windows.Forms.PictureBox();
             this.ReadWorker = new System.ComponentModel.BackgroundWorker();
             this.button4 = new System.Windows.Forms.Button();
+            this.picClockFace = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picClockFace)).BeginInit();
             this.SuspendLayout();
             // 
             // renderTimer
@@ -85,7 +87,7 @@
             // centerptr
             // 
             this.centerptr.AutoSize = true;
-            this.centerptr.Location = new System.Drawing.Point(186, 304);
+            this.centerptr.Location = new System.Drawing.Point(241, 349);
             this.centerptr.Name = "centerptr";
             this.centerptr.Size = new System.Drawing.Size(53, 12);
             this.centerptr.TabIndex = 0;
@@ -94,7 +96,7 @@
             // clocksize
             // 
             this.clocksize.ContextMenuStrip = this.contextMenuStrip1;
-            this.clocksize.Location = new System.Drawing.Point(91, 209);
+            this.clocksize.Location = new System.Drawing.Point(146, 255);
             this.clocksize.Name = "clocksize";
             this.clocksize.Size = new System.Drawing.Size(192, 192);
             this.clocksize.TabIndex = 1;
@@ -306,12 +308,13 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(6, 14);
+            this.button1.Location = new System.Drawing.Point(60, 58);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(379, 154);
             this.button1.TabIndex = 2;
             this.button1.Text = "拖动区域";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             this.button1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button1_MouseDown);
             this.button1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button1_MouseMove);
             this.button1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.button1_MouseUp);
@@ -319,7 +322,7 @@
             // button2
             // 
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Location = new System.Drawing.Point(158, 77);
+            this.button2.Location = new System.Drawing.Point(212, 121);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(64, 48);
             this.button2.TabIndex = 3;
@@ -348,7 +351,7 @@
             // button3
             // 
             this.button3.ContextMenuStrip = this.contextMenuStrip2;
-            this.button3.Location = new System.Drawing.Point(91, 209);
+            this.button3.Location = new System.Drawing.Point(146, 255);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(192, 192);
             this.button3.TabIndex = 6;
@@ -419,7 +422,7 @@
             // 
             this.rapArea.BackColor = System.Drawing.Color.Transparent;
             this.rapArea.ForeColor = System.Drawing.Color.Red;
-            this.rapArea.Location = new System.Drawing.Point(137, 275);
+            this.rapArea.Location = new System.Drawing.Point(194, 314);
             this.rapArea.Name = "rapArea";
             this.rapArea.Size = new System.Drawing.Size(100, 33);
             this.rapArea.TabIndex = 7;
@@ -429,7 +432,7 @@
             // millisecOption
             // 
             this.millisecOption.BackColor = System.Drawing.Color.Transparent;
-            this.millisecOption.Location = new System.Drawing.Point(170, 232);
+            this.millisecOption.Location = new System.Drawing.Point(224, 276);
             this.millisecOption.Name = "millisecOption";
             this.millisecOption.Size = new System.Drawing.Size(35, 35);
             this.millisecOption.TabIndex = 8;
@@ -442,7 +445,7 @@
             // button4
             // 
             this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.Location = new System.Drawing.Point(249, 115);
+            this.button4.Location = new System.Drawing.Point(80, 447);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(60, 60);
             this.button4.TabIndex = 9;
@@ -453,13 +456,22 @@
             this.button4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
             this.button4.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
             // 
+            // picClockFace
+            // 
+            this.picClockFace.BackgroundImage = global::Watch.Properties.Resources.clockface;
+            this.picClockFace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picClockFace.Location = new System.Drawing.Point(54, 44);
+            this.picClockFace.Name = "picClockFace";
+            this.picClockFace.Size = new System.Drawing.Size(391, 513);
+            this.picClockFace.TabIndex = 10;
+            this.picClockFace.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Watch.Properties.Resources.clockface;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(391, 513);
+            this.ClientSize = new System.Drawing.Size(506, 618);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.millisecOption);
             this.Controls.Add(this.button3);
@@ -468,6 +480,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.centerptr);
             this.Controls.Add(this.rapArea);
+            this.Controls.Add(this.picClockFace);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -478,6 +491,7 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picClockFace)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -526,6 +540,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem mnuShowReport;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.PictureBox picClockFace;
     }
 }
 
