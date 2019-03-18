@@ -1,9 +1,0 @@
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\bin\Debug\Watch.exe.config
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\bin\Debug\Watch.exe
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\bin\Debug\Watch.pdb
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.csprojResolveAssemblyReference.cache
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.Form1.resources
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.Properties.Resources.resources
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.csproj.GenerateResource.Cache
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.exe
-D:\用户文件\我的文档\Visual Studio 2015\Projects\Watch\Watch\obj\Debug\Watch.pdb
