@@ -81,7 +81,7 @@
             // renderTimer
             // 
             this.renderTimer.Enabled = true;
-            this.renderTimer.Interval = 18;
+            this.renderTimer.Interval = 1;
             this.renderTimer.Tick += new System.EventHandler(this.renderTimer_Tick);
             // 
             // centerptr
@@ -445,9 +445,9 @@
             // button4
             // 
             this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.Location = new System.Drawing.Point(80, 447);
+            this.button4.Location = new System.Drawing.Point(90, 448);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(60, 60);
+            this.button4.Size = new System.Drawing.Size(48, 48);
             this.button4.TabIndex = 9;
             this.button4.Text = "记录按钮";
             this.button4.UseVisualStyleBackColor = true;

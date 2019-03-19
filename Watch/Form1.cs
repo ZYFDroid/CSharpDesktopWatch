@@ -87,7 +87,7 @@ namespace Watch
             {
                 TimeSpot timeObj = timers[i];
                 sbuilder.Append(timeObj.timePosition);
-                if (null!=timeObj.comment && "" != timeObj.comment) {
+                if (null != timeObj.comment && "" != timeObj.comment) {
                     sbuilder.Append("#").Append(timeObj.comment);
                 }
                 if (i < timers.Count - 1) { sbuilder.Append("\n"); }
@@ -95,7 +95,7 @@ namespace Watch
             File.WriteAllText(path, sbuilder.ToString());
         }
 
-        char[] separator = { '#'};
+        char[] separator = { '#' };
 
         public void loadTime(string path)
         {
@@ -109,7 +109,7 @@ namespace Watch
                     string str = lines[i];
                     if (str.Contains("#"))
                     {
-                        string[] strs=str.Split(separator,2);
+                        string[] strs = str.Split(separator, 2);
                         timeObj.timePosition = Int64.Parse(strs[0]);
                         timeObj.comment = strs[1];
                     }
@@ -314,13 +314,17 @@ namespace Watch
 
         bool shouldStopAfterTimeup = false;
 
+        List<RoundButton> buttons = new List<RoundButton>();
+
         private void renderTimer_Tick(object sender, EventArgs e)
         {
             if (!inited)
             {
+
+
                 Bitmap tmp;
                 tmp = clockface;
-                clockface = new Bitmap(clockface,picClockFace.Size);
+                clockface = new Bitmap(clockface, picClockFace.Size);
                 tmp.Dispose();
                 tmp = hand_hour;
                 hand_hour = new Bitmap(hand_hour, clocksize.Size);
@@ -350,12 +354,24 @@ namespace Watch
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 centerformat = sf;
+
+                buttons.Add(new RoundButton(Color.Cyan, Properties.Resources.icon_save, 99, 99, 24));
+
                 GC.Collect();
                 inited = true;
             }
 
+            
+
             this.thisGraphics.Clear(Color.FromArgb(0x007f7f00));
-            this.thisGraphics.DrawImage(clockface, picClockFace.Left,picClockFace.Top);
+
+            foreach (RoundButton button in buttons)
+            {
+                button.onDraw(thisGraphics);
+            }
+
+
+            this.thisGraphics.DrawImage(clockface, picClockFace.Left, picClockFace.Top);
 
             if (IsClockMode)
             {
@@ -398,6 +414,8 @@ namespace Watch
                 thisGraphics.DrawImage(btn_note, button4.Left, button4.Top);
             }
 
+            
+
             SetBits((Bitmap)this.thisImage);
 
 
@@ -422,7 +440,7 @@ namespace Watch
             }
         }
 
-        
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -486,7 +504,7 @@ namespace Watch
 
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("该计时器通过保存每次开始和停止的时间来实现在不启用程序的情况下持续计时，因此计时器启动之后，即使程序关闭、电脑关机，也能继续准确计时，计时过程中请不要修改系统时间。临时计时文件保存在程序目录下的"+tempFilename+"中\r\n可以保存和打开已有的计时器记录，包括已完成计时的以及正在计时的\r\n\r\n怀表版计时器和普通版计时器存档通用", "非易失性计时器帮助");
+            MessageBox.Show("该计时器通过保存每次开始和停止的时间来实现在不启用程序的情况下持续计时，因此计时器启动之后，即使程序关闭、电脑关机，也能继续准确计时，计时过程中请不要修改系统时间。临时计时文件保存在程序目录下的" + tempFilename + "中\r\n可以保存和打开已有的计时器记录，包括已完成计时的以及正在计时的\r\n\r\n怀表版计时器和普通版计时器存档通用", "非易失性计时器帮助");
 
         }
 
@@ -700,14 +718,14 @@ namespace Watch
         {
             new TimePickDialog().ShowDialog();
         }
-        
+
         private void toolStripMenuItem14_MouseEnter(object sender, EventArgs e)
         {
-            
+
         }
 
-        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter);
-        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click);
+        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter1);
+        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click2);
 
         private void toolStripMenuItem10_MouseEnter(object sender, EventArgs e)
         {
@@ -721,14 +739,98 @@ namespace Watch
 
         private void button1_Click(object sender, EventArgs e)
         {
-            contextMenuStrip1.Show((Control)sender, Point.Empty);
+            buttons[0].startAnimation(centerptr.Left, centerptr.Top, 24, buttons[0].x, buttons[0].y, buttons[0].r, 48, true);
         }
 
         private void button1_MouseUp(object sender, MouseEventArgs e)
         {
             clickdown = false;
         }
+
+
+        class RoundButton
+        {
+            Image btnImage;
+            public float x = 0, y = 0, r = 0;
+            Color color;
+            Brush b;
+            RectangleF rectf = new RectangleF(0, 0, 1, 1);
+            public RoundButton(Color color,Image btnImage,float x,float y,float radius)
+            {
+                this.btnImage = btnImage;
+                this.x = x;
+                this.y = y;
+                this.r = radius;
+                this.color = Color.FromArgb(127, color);
+                b = new SolidBrush(this.color);
+            }
+            float destX, destY, destRadius;
+            float fromX, fromY, fromRadius;
+            float position = 0;
+            bool finalStatus = true;
+            float speed = 0.025f;
+            bool inAlimation = false;
+            bool visibility = true;
+            public void onDraw(Graphics g) {
+                float mx=0, my=0, mr=1;
+                if (!visibility) { return; }
+                if (inAlimation)
+                {
+                    mx = fromX + (destX - fromX) * Interpolator.overshoot(position);
+                    my = fromY + (destY - fromY) * Interpolator.overshoot(position);
+                    mr = fromRadius + (destRadius - fromRadius) * Interpolator.overshoot(position);
+                    position += speed;
+                    if (position > 1)
+                    {
+                        visibility = finalStatus;
+                        inAlimation = false;
+                    }
+                }
+                else {
+                    mx = this.x;my = this.y;mr = this.r;
+                }
+
+                rectf.X = mx - mr;rectf.Y = mx - mr;rectf.Width = mr * 2;rectf.Height = mr * 2;
+                g.FillEllipse(b, rectf);
+                g.DrawImage(btnImage, rectf);
+            }
+
+            public void startAnimation(float fx,float fy,float fr,float dx,float dy,float dr,float frames,bool finalVisible) {
+                this.visibility = true;
+                this.position = 0;
+                this.inAlimation = true;
+                this.fromX = fx;
+                this.fromY = fy;
+                this.fromRadius = fr;
+                this.destX = dx;
+                this.destY = dy;
+                this.destRadius = dr;
+                this.speed = 1 / frames;
+                this.finalStatus = finalVisible;
+            }
+
+        }
+
+
     }
+
+    class Interpolator
+    {
+
+        public static float linear(float x) {
+            if (x < 0) { return 0; }
+            if (x > 1) { return 1; }
+            return x;
+        }
+
+        public static float overshoot(float x) {
+            if (x < 0) { return 0; }
+            if (x > 1) { return 1; }
+            return (x - 1) * (x - 1) * ((2 + 1) * (x - 1) + 2) + 1;
+        }
+
+    }
+
 
     #region Win32
     internal class Win32

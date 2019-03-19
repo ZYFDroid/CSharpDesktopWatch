@@ -124,11 +124,17 @@
   <data name="click" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\audio\click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="click2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Design\audio\click2.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="clockface" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clockface.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="enter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\audio\enter.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="enter1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Design\audio\enter1.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="handhour" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\handhour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -147,6 +153,9 @@
   </data>
   <data name="handsec_shadow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\handsec_shadow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Design\icon_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="millisecond" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\millisecond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

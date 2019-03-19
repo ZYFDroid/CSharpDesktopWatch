@@ -80,6 +80,15 @@ namespace Watch.Properties {
         }
         
         /// <summary>
+        ///   查找类似于 System.IO.MemoryStream 的 System.IO.UnmanagedMemoryStream 类型的本地化资源。
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream click2 {
+            get {
+                return ResourceManager.GetStream("click2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap clockface {
@@ -95,6 +104,15 @@ namespace Watch.Properties {
         internal static System.IO.UnmanagedMemoryStream enter {
             get {
                 return ResourceManager.GetStream("enter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 System.IO.MemoryStream 的 System.IO.UnmanagedMemoryStream 类型的本地化资源。
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream enter1 {
+            get {
+                return ResourceManager.GetStream("enter1", resourceCulture);
             }
         }
         
@@ -154,6 +172,16 @@ namespace Watch.Properties {
         internal static System.Drawing.Bitmap handsec_shadow {
             get {
                 object obj = ResourceManager.GetObject("handsec_shadow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_save {
+            get {
+                object obj = ResourceManager.GetObject("icon_save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
