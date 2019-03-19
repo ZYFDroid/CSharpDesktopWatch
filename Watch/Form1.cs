@@ -302,7 +302,7 @@ namespace Watch
             {
                 button2.Visible = !value;
                 button3.Visible = value;
-                button4.Visible = !value;
+                btnFancyRecord.Visible = !value;
                 mIsClock = value;
             }
         }
@@ -310,18 +310,29 @@ namespace Watch
         RectangleF stringarea;
         StringFormat centerformat;
 
+        public void createFromView(Control control, Color color, Bitmap icon) {
+            String tag = control.Name;
+            float radius = (float)Math.Sqrt(control.Width * control.Width + control.Height + control.Height)/2;
+            float x = picClockFace.Left + control.Left + control.Width / 2;
+            float y = picClockFace.Top + control.Top + control.Height / 2;
+            RoundButton rb = new RoundButton(color, icon, x, y, radius);
+            rb.visibility = false;
+            buttons.Add(tag, rb);
+        }
+
+
         bool mIsClock = true;
+
+        Brush alphalike = new SolidBrush(Color.FromArgb(1, 128, 128, 128));
 
         bool shouldStopAfterTimeup = false;
 
-        List<RoundButton> buttons = new List<RoundButton>();
+        SortedList<String,RoundButton> buttons = new SortedList<String,RoundButton>();
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
             if (!inited)
             {
-
-
                 Bitmap tmp;
                 tmp = clockface;
                 clockface = new Bitmap(clockface, picClockFace.Size);
@@ -348,15 +359,15 @@ namespace Watch
                 hand_millisec = new Bitmap(hand_millisec, millisecOption.Size);
                 tmp.Dispose();
                 tmp = btn_note;
-                btn_note = new Bitmap(btn_note, button4.Size);
+                btn_note = new Bitmap(btn_note, btnFancyRecord.Size);
                 tmp.Dispose();
+
+                createFromView(btnFancyRecord, Color.Cyan, Properties.Resources.btn_record);
+
                 stringarea = new RectangleF(rapArea.Left, rapArea.Top, rapArea.Width, rapArea.Height);
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 centerformat = sf;
-
-                buttons.Add(new RoundButton(Color.Cyan, Properties.Resources.icon_save, 99, 99, 24));
-
                 GC.Collect();
                 inited = true;
             }
@@ -365,7 +376,7 @@ namespace Watch
 
             this.thisGraphics.Clear(Color.FromArgb(0x007f7f00));
 
-            foreach (RoundButton button in buttons)
+            foreach (RoundButton button in buttons.Values)
             {
                 button.onDraw(thisGraphics);
             }
@@ -394,26 +405,26 @@ namespace Watch
             bool ampm = hour % 24 >= 12;
             string days = day == 1 ? " DAY\r\n" : " DAYS\r\n";
 
-            drawRotateImg(hand_millisec, milsec * 0.36f, thisGraphics, millisecOption.Left + millisecOption.Width / 2, millisecOption.Top + millisecOption.Height / 2);
+            drawRotateImg(hand_millisec, milsec * 0.36f, thisGraphics, picClockFace.Left + millisecOption.Left + millisecOption.Width / 2, picClockFace.Top+ millisecOption.Top + millisecOption.Height / 2);
 
-            drawRotateImg(hand_hour_shadow, mhour * 30, thisGraphics, centerptr.Left + 4, centerptr.Top + 4, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min_shadow, mmin * 6, thisGraphics, centerptr.Left + 4, centerptr.Top + 4, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec_shadow, msec * 6, thisGraphics, centerptr.Left + 4, centerptr.Top + 4, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_hour_shadow, mhour * 30, thisGraphics,picClockFace.Left+ centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_min_shadow, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_sec_shadow, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
 
 
-            drawRotateImg(hand_hour, mhour * 30, thisGraphics, centerptr.Left, centerptr.Top, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min, mmin * 6, thisGraphics, centerptr.Left, centerptr.Top, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec, msec * 6, thisGraphics, centerptr.Left, centerptr.Top, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_hour, mhour * 30, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_min, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_sec, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
+
+            thisGraphics.FillRectangle(alphalike, buttonArea.Left + picClockFace.Left, picClockFace.Top + buttonArea.Top, buttonArea.Width, buttonArea.Height);
 
             if (!IsClockMode && hour >= 12)
             {
                 thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, Brushes.Red, stringarea, centerformat);
             }
 
-            if (!IsClockMode) {
-                thisGraphics.DrawImage(btn_note, button4.Left, button4.Top);
-            }
-
+            
+            
             
 
             SetBits((Bitmap)this.thisImage);
@@ -739,7 +750,7 @@ namespace Watch
 
         private void button1_Click(object sender, EventArgs e)
         {
-            buttons[0].startAnimation(centerptr.Left, centerptr.Top, 24, buttons[0].x, buttons[0].y, buttons[0].r, 48, true);
+            
         }
 
         private void button1_MouseUp(object sender, MouseEventArgs e)
@@ -747,6 +758,20 @@ namespace Watch
             clickdown = false;
         }
 
+        private void picClockFace_MouseEnter(object sender, EventArgs e)
+        {
+            foreach (RoundButton button in buttons.Values) {
+                button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.OVERSHOOT);
+            }
+        }
+
+        private void picClockFace_MouseLeave(object sender, EventArgs e)
+        {
+            foreach (RoundButton button in buttons.Values)
+            {
+                button.startAnimation( button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top +centerptr.Top, button.r, 48, false, Interpolator.ANTICIPATE);
+            }
+        }
 
         class RoundButton
         {
@@ -767,18 +792,20 @@ namespace Watch
             float destX, destY, destRadius;
             float fromX, fromY, fromRadius;
             float position = 0;
+            
             bool finalStatus = true;
             float speed = 0.025f;
             bool inAlimation = false;
-            bool visibility = true;
+            int usingInterpolator = 0;
+            public bool visibility = true;
             public void onDraw(Graphics g) {
                 float mx=0, my=0, mr=1;
                 if (!visibility) { return; }
                 if (inAlimation)
                 {
-                    mx = fromX + (destX - fromX) * Interpolator.overshoot(position);
-                    my = fromY + (destY - fromY) * Interpolator.overshoot(position);
-                    mr = fromRadius + (destRadius - fromRadius) * Interpolator.overshoot(position);
+                    mx = fromX + (destX - fromX) * Interpolator.callInterpolator( position,usingInterpolator);
+                    my = fromY + (destY - fromY) * Interpolator.callInterpolator(position, usingInterpolator);
+                    mr = fromRadius + (destRadius - fromRadius) * Interpolator.callInterpolator(position, usingInterpolator);
                     position += speed;
                     if (position > 1)
                     {
@@ -790,12 +817,12 @@ namespace Watch
                     mx = this.x;my = this.y;mr = this.r;
                 }
 
-                rectf.X = mx - mr;rectf.Y = mx - mr;rectf.Width = mr * 2;rectf.Height = mr * 2;
+                rectf.X = mx - mr;rectf.Y = my - mr;rectf.Width = mr * 2;rectf.Height = mr * 2;
                 g.FillEllipse(b, rectf);
                 g.DrawImage(btnImage, rectf);
             }
 
-            public void startAnimation(float fx,float fy,float fr,float dx,float dy,float dr,float frames,bool finalVisible) {
+            public void startAnimation(float fx,float fy,float fr,float dx,float dy,float dr,float frames,bool finalVisible,int interpolator) {
                 this.visibility = true;
                 this.position = 0;
                 this.inAlimation = true;
@@ -807,6 +834,7 @@ namespace Watch
                 this.destRadius = dr;
                 this.speed = 1 / frames;
                 this.finalStatus = finalVisible;
+                this.usingInterpolator = interpolator;
             }
 
         }
@@ -816,6 +844,19 @@ namespace Watch
 
     class Interpolator
     {
+
+        public const int LINEAR = 0;
+        public const int OVERSHOOT = 1;
+        public const int ANTICIPATE = 2;
+
+        public static float callInterpolator(float x, int type) {
+            switch (type) {
+                case LINEAR:return linear(x);
+                case OVERSHOOT:return overshoot(x);
+                case ANTICIPATE:return anticipate(x);
+                default:throw new InvalidEnumArgumentException();
+            }
+        }
 
         public static float linear(float x) {
             if (x < 0) { return 0; }
@@ -827,6 +868,12 @@ namespace Watch
             if (x < 0) { return 0; }
             if (x > 1) { return 1; }
             return (x - 1) * (x - 1) * ((2 + 1) * (x - 1) + 2) + 1;
+        }
+
+        public static float anticipate(float x) {
+            if (x < 0) { return 0; }
+            if (x > 1) { return 1; }
+            return x * x * ((2 + 1) * x - 2);
         }
 
     }
