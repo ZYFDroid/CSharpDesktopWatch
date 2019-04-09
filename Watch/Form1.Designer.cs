@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.renderTimer = new System.Windows.Forms.Timer(this.components);
-            this.centerptr = new System.Windows.Forms.Label();
-            this.clocksize = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRecordTimeComment = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,28 +53,34 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.GCTimer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button3 = new System.Windows.Forms.Button();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.切换到计时器模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReadWorker = new System.ComponentModel.BackgroundWorker();
+            this.hideBtnTimer = new System.Windows.Forms.Timer(this.components);
+            this.picClockFace = new System.Windows.Forms.Panel();
+            this.btnFancyExit = new System.Windows.Forms.Button();
+            this.btnFancyPause = new System.Windows.Forms.Button();
+            this.btnFancyToggle = new System.Windows.Forms.Button();
+            this.btnFancyReport = new System.Windows.Forms.Button();
+            this.btnFancyRecord = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.clocksize = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.rapArea = new System.Windows.Forms.Label();
             this.millisecOption = new System.Windows.Forms.PictureBox();
-            this.ReadWorker = new System.ComponentModel.BackgroundWorker();
-            this.btnFancyRecord = new System.Windows.Forms.Button();
-            this.picClockFace = new System.Windows.Forms.Panel();
-            this.hideBtnTimer = new System.Windows.Forms.Timer(this.components);
+            this.centerptr = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).BeginInit();
             this.picClockFace.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).BeginInit();
             this.SuspendLayout();
             // 
             // renderTimer
@@ -84,26 +88,6 @@
             this.renderTimer.Enabled = true;
             this.renderTimer.Interval = 1;
             this.renderTimer.Tick += new System.EventHandler(this.renderTimer_Tick);
-            // 
-            // centerptr
-            // 
-            this.centerptr.AutoSize = true;
-            this.centerptr.Location = new System.Drawing.Point(186, 304);
-            this.centerptr.Name = "centerptr";
-            this.centerptr.Size = new System.Drawing.Size(53, 12);
-            this.centerptr.TabIndex = 0;
-            this.centerptr.Text = "轴心坐标";
-            // 
-            // clocksize
-            // 
-            this.clocksize.ContextMenuStrip = this.contextMenuStrip1;
-            this.clocksize.Location = new System.Drawing.Point(90, 208);
-            this.clocksize.Name = "clocksize";
-            this.clocksize.Size = new System.Drawing.Size(192, 192);
-            this.clocksize.TabIndex = 1;
-            this.clocksize.Text = "尺寸  计时模式右键菜单";
-            this.clocksize.UseVisualStyleBackColor = true;
-            this.clocksize.Click += new System.EventHandler(this.clocksize_Click);
             // 
             // contextMenuStrip1
             // 
@@ -307,33 +291,6 @@
             this.关于ToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
             this.关于ToolStripMenuItem.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 24);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(379, 154);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "拖动区域";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            this.button1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button1_MouseDown);
-            this.button1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button1_MouseMove);
-            this.button1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.button1_MouseUp);
-            // 
-            // button2
-            // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Location = new System.Drawing.Point(158, 77);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(64, 48);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "计时按钮";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            this.button2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.button2.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
             // GCTimer
             // 
             this.GCTimer.Enabled = true;
@@ -348,16 +305,6 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.Filter = "可扩展计时器文件|*.tmrx";
-            // 
-            // button3
-            // 
-            this.button3.ContextMenuStrip = this.contextMenuStrip2;
-            this.button3.Location = new System.Drawing.Point(90, 208);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(192, 192);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "时钟模式右键菜单";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip2
             // 
@@ -419,6 +366,158 @@
             this.退出ToolStripMenuItem1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
             this.退出ToolStripMenuItem1.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
             // 
+            // ReadWorker
+            // 
+            this.ReadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ReadWorker_DoWork);
+            // 
+            // hideBtnTimer
+            // 
+            this.hideBtnTimer.Tick += new System.EventHandler(this.hideBtnTimer_Tick);
+            // 
+            // picClockFace
+            // 
+            this.picClockFace.BackgroundImage = global::Watch.Properties.Resources.clockface;
+            this.picClockFace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picClockFace.Controls.Add(this.btnFancyExit);
+            this.picClockFace.Controls.Add(this.btnFancyPause);
+            this.picClockFace.Controls.Add(this.btnFancyToggle);
+            this.picClockFace.Controls.Add(this.btnFancyReport);
+            this.picClockFace.Controls.Add(this.btnFancyRecord);
+            this.picClockFace.Controls.Add(this.button2);
+            this.picClockFace.Controls.Add(this.button3);
+            this.picClockFace.Controls.Add(this.clocksize);
+            this.picClockFace.Controls.Add(this.button1);
+            this.picClockFace.Controls.Add(this.rapArea);
+            this.picClockFace.Controls.Add(this.millisecOption);
+            this.picClockFace.Controls.Add(this.centerptr);
+            this.picClockFace.Location = new System.Drawing.Point(58, 45);
+            this.picClockFace.Name = "picClockFace";
+            this.picClockFace.Size = new System.Drawing.Size(391, 513);
+            this.picClockFace.TabIndex = 11;
+            this.picClockFace.MouseEnter += new System.EventHandler(this.picClockFace_MouseEnter);
+            // 
+            // btnFancyExit
+            // 
+            this.btnFancyExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyExit.Location = new System.Drawing.Point(282, 404);
+            this.btnFancyExit.Name = "btnFancyExit";
+            this.btnFancyExit.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyExit.TabIndex = 10;
+            this.btnFancyExit.Text = "退出按钮";
+            this.btnFancyExit.UseVisualStyleBackColor = true;
+            this.btnFancyExit.Click += new System.EventHandler(this.btnFancyExit_Click);
+            this.btnFancyExit.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyExit.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyExit.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            // 
+            // btnFancyPause
+            // 
+            this.btnFancyPause.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyPause.Location = new System.Drawing.Point(156, 453);
+            this.btnFancyPause.Name = "btnFancyPause";
+            this.btnFancyPause.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyPause.TabIndex = 10;
+            this.btnFancyPause.Text = "暂停按钮";
+            this.btnFancyPause.UseVisualStyleBackColor = true;
+            this.btnFancyPause.Click += new System.EventHandler(this.btnFancyPause_Click);
+            this.btnFancyPause.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyPause.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyPause.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            this.btnFancyPause.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseUp);
+            // 
+            // btnFancyToggle
+            // 
+            this.btnFancyToggle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyToggle.Location = new System.Drawing.Point(225, 441);
+            this.btnFancyToggle.Name = "btnFancyToggle";
+            this.btnFancyToggle.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyToggle.TabIndex = 10;
+            this.btnFancyToggle.Text = "切换按钮";
+            this.btnFancyToggle.UseVisualStyleBackColor = true;
+            this.btnFancyToggle.Click += new System.EventHandler(this.btnFancyToggle_Click);
+            this.btnFancyToggle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyToggle.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyToggle.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            this.btnFancyToggle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseUp);
+            // 
+            // btnFancyReport
+            // 
+            this.btnFancyReport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyReport.Location = new System.Drawing.Point(87, 442);
+            this.btnFancyReport.Name = "btnFancyReport";
+            this.btnFancyReport.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyReport.TabIndex = 10;
+            this.btnFancyReport.Text = "报时按钮";
+            this.btnFancyReport.UseVisualStyleBackColor = true;
+            this.btnFancyReport.Click += new System.EventHandler(this.btnFancyReport_Click);
+            this.btnFancyReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyReport.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyReport.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            this.btnFancyReport.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseUp);
+            // 
+            // btnFancyRecord
+            // 
+            this.btnFancyRecord.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyRecord.Location = new System.Drawing.Point(30, 403);
+            this.btnFancyRecord.Name = "btnFancyRecord";
+            this.btnFancyRecord.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyRecord.TabIndex = 9;
+            this.btnFancyRecord.Text = "记录按钮";
+            this.btnFancyRecord.UseVisualStyleBackColor = true;
+            this.btnFancyRecord.Visible = false;
+            this.btnFancyRecord.Click += new System.EventHandler(this.mnuRecordTimeComment_Click);
+            this.btnFancyRecord.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyRecord.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyRecord.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            // 
+            // button2
+            // 
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.Location = new System.Drawing.Point(158, 77);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(64, 48);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "计时按钮";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
+            this.button2.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
+            // 
+            // button3
+            // 
+            this.button3.ContextMenuStrip = this.contextMenuStrip2;
+            this.button3.Location = new System.Drawing.Point(90, 208);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(192, 192);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "时钟模式右键菜单";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // clocksize
+            // 
+            this.clocksize.ContextMenuStrip = this.contextMenuStrip1;
+            this.clocksize.Location = new System.Drawing.Point(90, 208);
+            this.clocksize.Name = "clocksize";
+            this.clocksize.Size = new System.Drawing.Size(192, 192);
+            this.clocksize.TabIndex = 1;
+            this.clocksize.Text = "尺寸  计时模式右键菜单";
+            this.clocksize.UseVisualStyleBackColor = true;
+            this.clocksize.Click += new System.EventHandler(this.clocksize_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 24);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(379, 154);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "拖动区域";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button1_MouseDown);
+            this.button1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.button1_MouseMove);
+            this.button1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.button1_MouseUp);
+            // 
             // rapArea
             // 
             this.rapArea.BackColor = System.Drawing.Color.Transparent;
@@ -439,45 +538,14 @@
             this.millisecOption.TabIndex = 8;
             this.millisecOption.TabStop = false;
             // 
-            // ReadWorker
+            // centerptr
             // 
-            this.ReadWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ReadWorker_DoWork);
-            // 
-            // btnFancyRecord
-            // 
-            this.btnFancyRecord.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFancyRecord.Location = new System.Drawing.Point(31, 406);
-            this.btnFancyRecord.Name = "btnFancyRecord";
-            this.btnFancyRecord.Size = new System.Drawing.Size(60, 60);
-            this.btnFancyRecord.TabIndex = 9;
-            this.btnFancyRecord.Text = "记录按钮";
-            this.btnFancyRecord.UseVisualStyleBackColor = true;
-            this.btnFancyRecord.Visible = false;
-            this.btnFancyRecord.Click += new System.EventHandler(this.mnuRecordTimeComment_Click);
-            this.btnFancyRecord.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.btnFancyRecord.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
-            // picClockFace
-            // 
-            this.picClockFace.BackgroundImage = global::Watch.Properties.Resources.clockface;
-            this.picClockFace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picClockFace.Controls.Add(this.btnFancyRecord);
-            this.picClockFace.Controls.Add(this.button2);
-            this.picClockFace.Controls.Add(this.button3);
-            this.picClockFace.Controls.Add(this.clocksize);
-            this.picClockFace.Controls.Add(this.button1);
-            this.picClockFace.Controls.Add(this.rapArea);
-            this.picClockFace.Controls.Add(this.millisecOption);
-            this.picClockFace.Controls.Add(this.centerptr);
-            this.picClockFace.Location = new System.Drawing.Point(58, 45);
-            this.picClockFace.Name = "picClockFace";
-            this.picClockFace.Size = new System.Drawing.Size(391, 513);
-            this.picClockFace.TabIndex = 11;
-            this.picClockFace.MouseEnter += new System.EventHandler(this.picClockFace_MouseEnter);
-            // 
-            // hideBtnTimer
-            // 
-            this.hideBtnTimer.Tick += new System.EventHandler(this.hideBtnTimer_Tick);
+            this.centerptr.AutoSize = true;
+            this.centerptr.Location = new System.Drawing.Point(186, 304);
+            this.centerptr.Name = "centerptr";
+            this.centerptr.Size = new System.Drawing.Size(53, 12);
+            this.centerptr.TabIndex = 0;
+            this.centerptr.Text = "轴心坐标";
             // 
             // Form1
             // 
@@ -495,9 +563,9 @@
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).EndInit();
             this.picClockFace.ResumeLayout(false);
             this.picClockFace.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.millisecOption)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -547,6 +615,10 @@
         private System.Windows.Forms.Button btnFancyRecord;
         private System.Windows.Forms.Panel picClockFace;
         private System.Windows.Forms.Timer hideBtnTimer;
+        private System.Windows.Forms.Button btnFancyToggle;
+        private System.Windows.Forms.Button btnFancyReport;
+        private System.Windows.Forms.Button btnFancyExit;
+        private System.Windows.Forms.Button btnFancyPause;
     }
 }
 

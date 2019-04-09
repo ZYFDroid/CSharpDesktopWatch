@@ -303,6 +303,7 @@ namespace Watch
                 button2.Visible = !value;
                 button3.Visible = value;
                 btnFancyRecord.Visible = !value;
+                btnFancyPause.Visible = !value;
                 mIsClock = value;
             }
         }
@@ -329,6 +330,16 @@ namespace Watch
         bool shouldStopAfterTimeup = false;
 
         SortedList<String,RoundButton> buttons = new SortedList<String,RoundButton>();
+
+        Bitmap btn_start = Properties.Resources.btn_start;
+        Bitmap btn_pause = Properties.Resources.btn_pause;
+        Color pauseColor = Color.FromArgb(0x55ee00);
+        Color playColor = Color.FromArgb(0xee5500);
+        Bitmap btn_choro = Properties.Resources.btn_choro;
+        Bitmap btn_clock = Properties.Resources.btn_clocl;
+        Color choroColor = Color.Orange;
+        Color clockColor = Color.BlueViolet;
+
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
@@ -364,6 +375,10 @@ namespace Watch
                 tmp.Dispose();
 
                 createFromView(btnFancyRecord, Color.Cyan, Properties.Resources.btn_record);
+                createFromView(btnFancyPause, IsPaused ? playColor : pauseColor, IsPaused ? btn_start : btn_pause);
+                createFromView(btnFancyReport, Color.Pink, Properties.Resources.btn_speak);
+                createFromView(btnFancyExit, Color.Red, Properties.Resources.btn_exit);
+                createFromView(btnFancyToggle, IsClockMode ? clockColor : choroColor, IsClockMode ? btn_clock : btn_choro);
 
                 stringarea = new RectangleF(rapArea.Left, rapArea.Top, rapArea.Width, rapArea.Height);
                 StringFormat sf = new StringFormat();
@@ -376,6 +391,12 @@ namespace Watch
             
 
             this.thisGraphics.Clear(Color.FromArgb(0x007f7f00));
+
+            buttons[btnFancyPause.Name].btnImage = IsPaused ? btn_start : btn_pause;
+            buttons[btnFancyPause.Name].color = IsPaused ? playColor : pauseColor;
+            buttons[btnFancyToggle.Name].btnImage = IsClockMode ? btn_clock : btn_choro;
+            buttons[btnFancyToggle.Name].color = IsClockMode ? clockColor : choroColor;
+
 
             foreach (RoundButton button in buttons.Values)
             {
@@ -735,8 +756,8 @@ namespace Watch
 
         }
 
-        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter1);
-        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click2);
+        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter);
+        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click);
 
         private void toolStripMenuItem10_MouseEnter(object sender, EventArgs e)
         {
@@ -764,14 +785,17 @@ namespace Watch
             foreach (RoundButton button in buttons.Values) {
                 button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.OVERSHOOT);
             }
+            btnAvailable = true;
             hideBtnTimer.Enabled = true;
-            hideCd = 15;
+            hideCd = 10;
         }
 
         private void picClockFace_MouseLeave(object sender, EventArgs e)
         {
             
         }
+
+        bool btnAvailable = false;
 
         int hideCd = 10;
 
@@ -782,6 +806,7 @@ namespace Watch
             {
                 hideCd--;
                 if (hideCd == 5) {
+                    btnAvailable = false;
                     foreach (RoundButton button in buttons.Values)
                     {
                         button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48, false, Interpolator.ANTICIPATE);
@@ -793,15 +818,76 @@ namespace Watch
             }
             else {
                 if (hideCd <= 5) { return; }
-                hideCd=15;
+                hideCd=10;
             }
+        }
+
+
+        private void btnFancyRecord_MouseEnter(object sender, EventArgs e)
+        {
+            toolStripMenuItem10_MouseEnter(sender, e);
+            if (!btnAvailable) { return; }
+            RoundButton rb = buttons[((Control)sender).Name];
+            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r*1.2f, 16, true, Interpolator.OVERSHOOT);
+            rb.r = rb.r * 1.2f;
+        }
+
+        private void btnFancyRecord_MouseDown(object sender, MouseEventArgs e)
+        {
+            toolStripMenuItem10_MouseDown(sender, e);
+            if (!btnAvailable) { return; }
+            RoundButton rb = buttons[((Control)sender).Name];
+            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r / 1.2f, 10, true, Interpolator.LINEAR);
+            rb.r = ((Control)sender).Width / 2;
+
+        }
+
+        private void btnFancyRecord_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!btnAvailable) { return; }
+            RoundButton rb = buttons[((Control)sender).Name];
+            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r * 1.2f, 10, true, Interpolator.LINEAR);
+            rb.r = rb.r * 1.2f;
+        }
+
+        private void btnFancyRecord_MouseLeave(object sender, EventArgs e)
+        {
+            if (!btnAvailable) { return; }
+            RoundButton rb = buttons[((Control)sender).Name];
+            float lr= ((Control)sender).Width / 2;
+            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, lr, 16, true, Interpolator.OVERSHOOT);
+            rb.r = lr;
+        }
+
+        private void btnFancyPause_Click(object sender, EventArgs e)
+        {
+            button2_Click(sender,e);
+        }
+
+        private void btnFancyReport_Click(object sender, EventArgs e)
+        {
+            toolStripMenuItem9_Click(sender, e);
+        }
+
+        private void btnFancyExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnFancyToggle_Click(object sender, EventArgs e)
+        {
+            IsClockMode = !IsClockMode;
         }
 
         class RoundButton
         {
-            Image btnImage;
+            public Image btnImage;
             public float x = 0, y = 0, r = 0;
-            Color color;
+            public Color color {
+                get { return mcolor; }
+                set { mcolor = Color.FromArgb(127, value); b = new SolidBrush(this.color); }
+            }
+            private Color mcolor;
             Brush b;
             RectangleF rectf = new RectangleF(0, 0, 1, 1);
             public RoundButton(Color color,Image btnImage,float x,float y,float radius)
@@ -811,7 +897,7 @@ namespace Watch
                 this.y = y;
                 this.r = radius;
                 this.color = Color.FromArgb(127, color);
-                b = new SolidBrush(this.color);
+                
             }
             float destX, destY, destRadius;
             float fromX, fromY, fromRadius;
@@ -843,6 +929,8 @@ namespace Watch
 
                 rectf.X = mx - mr;rectf.Y = my - mr;rectf.Width = mr * 2;rectf.Height = mr * 2;
                 g.FillEllipse(b, rectf);
+                mr = mr * 0.50f;
+                rectf.X = mx - mr; rectf.Y = my - mr; rectf.Width = mr * 2; rectf.Height = mr * 2;
                 g.DrawImage(btnImage, rectf);
             }
 

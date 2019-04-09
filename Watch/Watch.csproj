@@ -151,6 +151,12 @@
     <None Include="Design\audio\click2.wav" />
     <None Include="Design\audio\enter1.wav" />
     <None Include="Design\icon_save.png" />
+    <None Include="Design\btn_pause.png" />
+    <None Include="Design\btn_start.png" />
+    <None Include="Design\btn_speak.png" />
+    <None Include="Design\btn_exit.png" />
+    <None Include="Design\btn_choro.png" />
+    <None Include="Design\btn_clocl.png" />
     <Content Include="icon.ico" />
     <EmbeddedResource Include="TimePickDialog.resx">
       <DependentUpon>TimePickDialog.cs</DependentUpon>
