@@ -317,6 +317,7 @@ namespace Watch
             float y = picClockFace.Top + control.Top + control.Height / 2;
             RoundButton rb = new RoundButton(color, icon, x, y, radius);
             rb.visibility = false;
+            
             buttons.Add(tag, rb);
         }
 
@@ -416,8 +417,7 @@ namespace Watch
             drawRotateImg(hand_min, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
             drawRotateImg(hand_sec, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
 
-            thisGraphics.FillRectangle(alphalike, buttonArea.Left + picClockFace.Left, picClockFace.Top + buttonArea.Top, buttonArea.Width, buttonArea.Height);
-
+            
             if (!IsClockMode && hour >= 12)
             {
                 thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, Brushes.Red, stringarea, centerformat);
@@ -760,16 +760,40 @@ namespace Watch
 
         private void picClockFace_MouseEnter(object sender, EventArgs e)
         {
+            if (hideBtnTimer.Enabled) { return; }
             foreach (RoundButton button in buttons.Values) {
                 button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.OVERSHOOT);
             }
+            hideBtnTimer.Enabled = true;
+            hideCd = 15;
         }
 
         private void picClockFace_MouseLeave(object sender, EventArgs e)
         {
-            foreach (RoundButton button in buttons.Values)
+            
+        }
+
+        int hideCd = 10;
+
+        private void hideBtnTimer_Tick(object sender, EventArgs e)
+        {
+            Rectangle r = new Rectangle(this.Location, this.Size);
+            if (!r.Contains(Control.MousePosition))
             {
-                button.startAnimation( button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top +centerptr.Top, button.r, 48, false, Interpolator.ANTICIPATE);
+                hideCd--;
+                if (hideCd == 5) {
+                    foreach (RoundButton button in buttons.Values)
+                    {
+                        button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48, false, Interpolator.ANTICIPATE);
+                    }
+                }
+                if (hideCd < 0) {
+                    hideBtnTimer.Enabled = false;
+                }
+            }
+            else {
+                if (hideCd <= 5) { return; }
+                hideCd=15;
             }
         }
 
