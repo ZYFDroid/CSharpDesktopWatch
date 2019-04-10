@@ -346,6 +346,8 @@
             this.picClockFace.Size = new System.Drawing.Size(391, 513);
             this.picClockFace.TabIndex = 11;
             this.picClockFace.MouseEnter += new System.EventHandler(this.picClockFace_MouseEnter);
+            this.picClockFace.MouseHover += new System.EventHandler(this.picClockFace_MouseHover);
+            this.picClockFace.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picClockFace_MouseMove);
             // 
             // btnFancyReset
             // 

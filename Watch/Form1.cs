@@ -763,18 +763,27 @@ namespace Watch
 
         private void picClockFace_MouseEnter(object sender, EventArgs e)
         {
-            if (hideBtnTimer.Enabled) { return; }
-            float i = 0;
-            foreach (RoundButton button in buttons.Values) {
-                button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.ANTICIPATE_OVERSHOOT);
-                button.position -= i * 0.08f;
-                i += 1f;
-            }
-            showCd = 6;
-            hideBtnTimer.Enabled = true;
-            hideCd = 10;
+            checkMousePosition();
         }
 
+        public void checkMousePosition()
+        {
+            Rectangle r = new Rectangle(this.Location, this.Size);
+            if (r.Contains(Control.MousePosition))
+            {
+                if (hideBtnTimer.Enabled) { return; }
+                float i = 0;
+                foreach (RoundButton button in buttons.Values)
+                {
+                    button.startAnimation(picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y, button.r, 48, true, Interpolator.ANTICIPATE_OVERSHOOT);
+                    button.position -= i * 0.08f;
+                    i += 1f;
+                }
+                showCd = 6;
+                hideBtnTimer.Enabled = true;
+                hideCd = 10;
+            }
+        }
         private void picClockFace_MouseLeave(object sender, EventArgs e)
         {
             
@@ -808,8 +817,14 @@ namespace Watch
                 }
             }
             else {
-                if (hideCd <= 5) { return; }
-                hideCd=10;
+                if (hideCd <= 6) {
+                    hideCd--;  if (hideCd < 0)
+                    {
+                        hideBtnTimer.Enabled = false;
+                    }
+                    return;
+                }
+                hideCd =10;
             }
         }
 
@@ -890,6 +905,16 @@ namespace Watch
         {
             if (!btnAvailable) { return; }
             重置ToolStripMenuItem_Click(sender, e);
+        }
+
+        private void picClockFace_MouseHover(object sender, EventArgs e)
+        {
+            checkMousePosition();
+        }
+
+        private void picClockFace_MouseMove(object sender, MouseEventArgs e)
+        {
+            checkMousePosition();
         }
 
         class RoundButton
