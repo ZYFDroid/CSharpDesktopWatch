@@ -127,11 +127,17 @@
   <data name="btn_exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\btn_exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="btn_minimized" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Design\btn_minimized.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="btn_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\btn_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_record" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\btn_record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="btn_reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Design\btn_reset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="btn_speak" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Design\btn_speak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

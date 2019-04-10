@@ -157,6 +157,8 @@
     <None Include="Design\btn_exit.png" />
     <None Include="Design\btn_choro.png" />
     <None Include="Design\btn_clocl.png" />
+    <None Include="Design\btn_minimized.png" />
+    <None Include="Design\btn_reset.png" />
     <Content Include="icon.ico" />
     <EmbeddedResource Include="TimePickDialog.resx">
       <DependentUpon>TimePickDialog.cs</DependentUpon>

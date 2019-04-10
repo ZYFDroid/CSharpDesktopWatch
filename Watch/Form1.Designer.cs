@@ -36,11 +36,6 @@
             this.mnuRecordTimeComment = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuShowReport = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.重置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +60,8 @@
             this.ReadWorker = new System.ComponentModel.BackgroundWorker();
             this.hideBtnTimer = new System.Windows.Forms.Timer(this.components);
             this.picClockFace = new System.Windows.Forms.Panel();
+            this.btnFancyReset = new System.Windows.Forms.Button();
+            this.btnFancyMin = new System.Windows.Forms.Button();
             this.btnFancyExit = new System.Windows.Forms.Button();
             this.btnFancyPause = new System.Windows.Forms.Button();
             this.btnFancyToggle = new System.Windows.Forms.Button();
@@ -96,11 +93,6 @@
             this.mnuRecordTimeComment,
             this.mnuShowReport,
             this.toolStripSeparator2,
-            this.toolStripMenuItem14,
-            this.toolStripMenuItem12,
-            this.toolStripMenuItem11,
-            this.toolStripMenuItem13,
-            this.toolStripSeparator1,
             this.打开ToolStripMenuItem,
             this.保存ToolStripMenuItem,
             this.重置ToolStripMenuItem,
@@ -117,7 +109,7 @@
             this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.contextMenuStrip1.ShowCheckMargin = true;
             this.contextMenuStrip1.ShowImageMargin = false;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 386);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 292);
             // 
             // toolStripMenuItem10
             // 
@@ -150,49 +142,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
-            // 
-            // toolStripMenuItem14
-            // 
-            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItem14.Text = "倒数";
-            this.toolStripMenuItem14.Visible = false;
-            this.toolStripMenuItem14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.toolStripMenuItem14.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
-            // toolStripMenuItem12
-            // 
-            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItem12.Text = "定时";
-            this.toolStripMenuItem12.Visible = false;
-            this.toolStripMenuItem12.Click += new System.EventHandler(this.toolStripMenuItem12_Click);
-            this.toolStripMenuItem12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.toolStripMenuItem12.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItem11.Text = "倒数开始";
-            this.toolStripMenuItem11.Visible = false;
-            this.toolStripMenuItem11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.toolStripMenuItem11.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
-            // toolStripMenuItem13
-            // 
-            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
-            this.toolStripMenuItem13.Size = new System.Drawing.Size(160, 22);
-            this.toolStripMenuItem13.Text = "定时开始";
-            this.toolStripMenuItem13.Visible = false;
-            this.toolStripMenuItem13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toolStripMenuItem10_MouseDown);
-            this.toolStripMenuItem13.MouseEnter += new System.EventHandler(this.toolStripMenuItem10_MouseEnter);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
-            this.toolStripSeparator1.Visible = false;
             // 
             // 打开ToolStripMenuItem
             // 
@@ -378,6 +327,8 @@
             // 
             this.picClockFace.BackgroundImage = global::Watch.Properties.Resources.clockface;
             this.picClockFace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picClockFace.Controls.Add(this.btnFancyReset);
+            this.picClockFace.Controls.Add(this.btnFancyMin);
             this.picClockFace.Controls.Add(this.btnFancyExit);
             this.picClockFace.Controls.Add(this.btnFancyPause);
             this.picClockFace.Controls.Add(this.btnFancyToggle);
@@ -390,11 +341,41 @@
             this.picClockFace.Controls.Add(this.rapArea);
             this.picClockFace.Controls.Add(this.millisecOption);
             this.picClockFace.Controls.Add(this.centerptr);
-            this.picClockFace.Location = new System.Drawing.Point(58, 45);
+            this.picClockFace.Location = new System.Drawing.Point(38, 31);
             this.picClockFace.Name = "picClockFace";
             this.picClockFace.Size = new System.Drawing.Size(391, 513);
             this.picClockFace.TabIndex = 11;
             this.picClockFace.MouseEnter += new System.EventHandler(this.picClockFace_MouseEnter);
+            // 
+            // btnFancyReset
+            // 
+            this.btnFancyReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyReset.Location = new System.Drawing.Point(88, 441);
+            this.btnFancyReset.Name = "btnFancyReset";
+            this.btnFancyReset.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyReset.TabIndex = 12;
+            this.btnFancyReset.Text = "重置按钮";
+            this.btnFancyReset.UseVisualStyleBackColor = true;
+            this.btnFancyReset.Visible = false;
+            this.btnFancyReset.Click += new System.EventHandler(this.btnFancyReset_Click);
+            this.btnFancyReset.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyReset.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyReset.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            // 
+            // btnFancyMin
+            // 
+            this.btnFancyMin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFancyMin.Location = new System.Drawing.Point(318, 345);
+            this.btnFancyMin.Name = "btnFancyMin";
+            this.btnFancyMin.Size = new System.Drawing.Size(60, 60);
+            this.btnFancyMin.TabIndex = 12;
+            this.btnFancyMin.Text = "最小化按钮";
+            this.btnFancyMin.UseVisualStyleBackColor = true;
+            this.btnFancyMin.Click += new System.EventHandler(this.btnFancyMin_Click);
+            this.btnFancyMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
+            this.btnFancyMin.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
+            this.btnFancyMin.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
+            this.btnFancyMin.MouseUp += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseUp);
             // 
             // btnFancyExit
             // 
@@ -444,7 +425,7 @@
             // btnFancyReport
             // 
             this.btnFancyReport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFancyReport.Location = new System.Drawing.Point(87, 442);
+            this.btnFancyReport.Location = new System.Drawing.Point(31, 404);
             this.btnFancyReport.Name = "btnFancyReport";
             this.btnFancyReport.Size = new System.Drawing.Size(60, 60);
             this.btnFancyReport.TabIndex = 10;
@@ -459,14 +440,14 @@
             // btnFancyRecord
             // 
             this.btnFancyRecord.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFancyRecord.Location = new System.Drawing.Point(30, 403);
+            this.btnFancyRecord.Location = new System.Drawing.Point(-4, 345);
             this.btnFancyRecord.Name = "btnFancyRecord";
             this.btnFancyRecord.Size = new System.Drawing.Size(60, 60);
             this.btnFancyRecord.TabIndex = 9;
             this.btnFancyRecord.Text = "记录按钮";
             this.btnFancyRecord.UseVisualStyleBackColor = true;
             this.btnFancyRecord.Visible = false;
-            this.btnFancyRecord.Click += new System.EventHandler(this.mnuRecordTimeComment_Click);
+            this.btnFancyRecord.Click += new System.EventHandler(this.btnFancyRecord_Click);
             this.btnFancyRecord.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
             this.btnFancyRecord.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
             this.btnFancyRecord.MouseLeave += new System.EventHandler(this.btnFancyRecord_MouseLeave);
@@ -552,7 +533,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(506, 618);
+            this.ClientSize = new System.Drawing.Size(471, 576);
             this.Controls.Add(this.picClockFace);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -604,11 +585,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.ComponentModel.BackgroundWorker ReadWorker;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
         private System.Windows.Forms.ToolStripMenuItem mnuRecordTimeComment;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem mnuShowReport;
@@ -619,6 +595,8 @@
         private System.Windows.Forms.Button btnFancyReport;
         private System.Windows.Forms.Button btnFancyExit;
         private System.Windows.Forms.Button btnFancyPause;
+        private System.Windows.Forms.Button btnFancyMin;
+        private System.Windows.Forms.Button btnFancyReset;
     }
 }
 

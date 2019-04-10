@@ -304,6 +304,7 @@ namespace Watch
                 button3.Visible = value;
                 btnFancyRecord.Visible = !value;
                 btnFancyPause.Visible = !value;
+                btnFancyReset.Visible = !value;
                 mIsClock = value;
             }
         }
@@ -326,10 +327,9 @@ namespace Watch
         bool mIsClock = true;
 
         Brush alphalike = new SolidBrush(Color.FromArgb(1, 128, 128, 128));
+        
 
-        bool shouldStopAfterTimeup = false;
-
-        SortedList<String,RoundButton> buttons = new SortedList<String,RoundButton>();
+        Dictionary<string,RoundButton> buttons = new Dictionary<string,RoundButton>();
 
         Bitmap btn_start = Properties.Resources.btn_start;
         Bitmap btn_pause = Properties.Resources.btn_pause;
@@ -376,9 +376,11 @@ namespace Watch
 
                 createFromView(btnFancyRecord, Color.Cyan, Properties.Resources.btn_record);
                 createFromView(btnFancyReport, Color.Pink, Properties.Resources.btn_speak);
+                createFromView(btnFancyReset, Color.FromArgb(0xafaf00), Properties.Resources.btn_reset);
                 createFromView(btnFancyPause, IsPaused ? playColor : pauseColor, IsPaused ? btn_start : btn_pause);
                 createFromView(btnFancyToggle, IsClockMode ? clockColor : choroColor, IsClockMode ? btn_clock : btn_choro);
                 createFromView(btnFancyExit, Color.Red, Properties.Resources.btn_exit);
+                createFromView(btnFancyMin, Color.FromArgb(0x7f7faf), Properties.Resources.btn_minimized);
 
 
                 stringarea = new RectangleF(rapArea.Left, rapArea.Top, rapArea.Width, rapArea.Height);
@@ -765,7 +767,7 @@ namespace Watch
             float i = 0;
             foreach (RoundButton button in buttons.Values) {
                 button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.ANTICIPATE_OVERSHOOT);
-                button.position -= i * 0.15f;
+                button.position -= i * 0.08f;
                 i += 1f;
             }
             showCd = 6;
@@ -797,7 +799,7 @@ namespace Watch
                     foreach (RoundButton button in buttons.Values)
                     {
                         button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48+i*6, false, Interpolator.ANTICIPATE_OVERSHOOT);
-                        button.position -= i * 0.15f;
+                        button.position -= i * 0.08f;
                         i += 1f;
                     }
                 }
@@ -850,22 +852,44 @@ namespace Watch
 
         private void btnFancyPause_Click(object sender, EventArgs e)
         {
+            if (!btnAvailable) { return; }
             button2_Click(sender,e);
         }
 
         private void btnFancyReport_Click(object sender, EventArgs e)
         {
+            if (!btnAvailable) { return; }
             toolStripMenuItem9_Click(sender, e);
         }
 
         private void btnFancyExit_Click(object sender, EventArgs e)
         {
+            if (!btnAvailable) { return; }
             Application.Exit();
         }
 
         private void btnFancyToggle_Click(object sender, EventArgs e)
         {
+            if (!btnAvailable) { return; }
             IsClockMode = !IsClockMode;
+        }
+
+        private void btnFancyRecord_Click(object sender, EventArgs e)
+        {
+            if (!btnAvailable) { return; }
+            mnuRecordTimeComment_Click(sender, e);
+        }
+
+        private void btnFancyMin_Click(object sender, EventArgs e)
+        {
+            if (!btnAvailable) { return; }
+            toolStripMenuItem8_Click(sender, e);
+        }
+
+        private void btnFancyReset_Click(object sender, EventArgs e)
+        {
+            if (!btnAvailable) { return; }
+            重置ToolStripMenuItem_Click(sender, e);
         }
 
         class RoundButton

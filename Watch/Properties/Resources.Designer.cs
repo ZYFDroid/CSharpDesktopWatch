@@ -93,6 +93,16 @@ namespace Watch.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap btn_minimized {
+            get {
+                object obj = ResourceManager.GetObject("btn_minimized", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap btn_pause {
             get {
                 object obj = ResourceManager.GetObject("btn_pause", resourceCulture);
@@ -106,6 +116,16 @@ namespace Watch.Properties {
         internal static System.Drawing.Bitmap btn_record {
             get {
                 object obj = ResourceManager.GetObject("btn_record", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap btn_reset {
+            get {
+                object obj = ResourceManager.GetObject("btn_reset", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
