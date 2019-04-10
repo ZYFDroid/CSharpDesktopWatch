@@ -764,11 +764,11 @@ namespace Watch
             if (hideBtnTimer.Enabled) { return; }
             float i = 0;
             foreach (RoundButton button in buttons.Values) {
-                button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.OVERSHOOT);
-                button.position -= i * 0.05f;
+                button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.ANTICIPATE_OVERSHOOT);
+                button.position -= i * 0.15f;
                 i += 1f;
             }
-            btnAvailable = true;
+            showCd = 6;
             hideBtnTimer.Enabled = true;
             hideCd = 10;
         }
@@ -782,19 +782,22 @@ namespace Watch
 
         int hideCd = 10;
 
+        int showCd = 6;
         private void hideBtnTimer_Tick(object sender, EventArgs e)
         {
+            if (showCd >= 0) { showCd--; if (showCd == -1) { btnAvailable = true; }return; }
+
             Rectangle r = new Rectangle(this.Location, this.Size);
             if (!r.Contains(Control.MousePosition))
             {
                 hideCd--;
-                if (hideCd == 5) {
+                if (hideCd == 6) {
                     btnAvailable = false;
                     float i = 0;
                     foreach (RoundButton button in buttons.Values)
                     {
-                        button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48+i*6, false, Interpolator.ANTICIPATE);
-                        button.position -= i * 0.05f;
+                        button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48+i*6, false, Interpolator.ANTICIPATE_OVERSHOOT);
+                        button.position -= i * 0.15f;
                         i += 1f;
                     }
                 }
@@ -808,11 +811,10 @@ namespace Watch
             }
         }
 
-
         private void btnFancyRecord_MouseEnter(object sender, EventArgs e)
         {
-            toolStripMenuItem10_MouseEnter(sender, e);
             if (!btnAvailable) { return; }
+            toolStripMenuItem10_MouseEnter(sender, e);
             RoundButton rb = buttons[((Control)sender).Name];
             rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r*1.2f, 16, true, Interpolator.OVERSHOOT);
             rb.r = rb.r * 1.2f;
@@ -820,8 +822,9 @@ namespace Watch
 
         private void btnFancyRecord_MouseDown(object sender, MouseEventArgs e)
         {
-            toolStripMenuItem10_MouseDown(sender, e);
+       
             if (!btnAvailable) { return; }
+            toolStripMenuItem10_MouseDown(sender, e);
             RoundButton rb = buttons[((Control)sender).Name];
             rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r / 1.2f, 10, true, Interpolator.LINEAR);
             rb.r = ((Control)sender).Width / 2;
@@ -891,7 +894,7 @@ namespace Watch
             
             bool finalStatus = true;
             float speed = 0.025f;
-            bool inAlimation = false;
+            public bool inAlimation = false;
             int usingInterpolator = 0;
             public bool visibility = true;
             public void onDraw(Graphics g) {
@@ -946,12 +949,13 @@ namespace Watch
         public const int LINEAR = 0;
         public const int OVERSHOOT = 1;
         public const int ANTICIPATE = 2;
-
+        public const int ANTICIPATE_OVERSHOOT = 3;
         public static float callInterpolator(float x, int type) {
             switch (type) {
                 case LINEAR:return linear(x);
                 case OVERSHOOT:return overshoot(x);
                 case ANTICIPATE:return anticipate(x);
+                case ANTICIPATE_OVERSHOOT:return anticipate_overshoot(x);
                 default:throw new InvalidEnumArgumentException();
             }
         }
@@ -973,7 +977,16 @@ namespace Watch
             if (x > 1) { return 1; }
             return x * x * ((2 + 1) * x - 2);
         }
-
+        public static float anticipate_overshoot(float x)
+        {
+            if (x < 0) { return 0; }
+            if (x > 1) { return 1; }
+            if (x < 0.5)
+            {
+                return 0.5f * 2f * x * 2f * x * ((3f + 1f) * 2f * x - 3f);
+            }
+            return 0.5f * ((2 * x - 2) * (2 * x - 2) * ((3 + 1) * (2 * x - 2) + 3) + 2);
+        }
     }
 
 
