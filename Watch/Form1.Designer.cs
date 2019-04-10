@@ -419,6 +419,7 @@
             this.btnFancyPause.TabIndex = 10;
             this.btnFancyPause.Text = "暂停按钮";
             this.btnFancyPause.UseVisualStyleBackColor = true;
+            this.btnFancyPause.Visible = false;
             this.btnFancyPause.Click += new System.EventHandler(this.btnFancyPause_Click);
             this.btnFancyPause.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
             this.btnFancyPause.MouseEnter += new System.EventHandler(this.btnFancyRecord_MouseEnter);
@@ -503,7 +504,6 @@
             this.clocksize.TabIndex = 1;
             this.clocksize.Text = "尺寸  计时模式右键菜单";
             this.clocksize.UseVisualStyleBackColor = true;
-            this.clocksize.Click += new System.EventHandler(this.clocksize_Click);
             // 
             // button1
             // 

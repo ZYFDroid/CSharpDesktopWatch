@@ -375,10 +375,11 @@ namespace Watch
                 tmp.Dispose();
 
                 createFromView(btnFancyRecord, Color.Cyan, Properties.Resources.btn_record);
-                createFromView(btnFancyPause, IsPaused ? playColor : pauseColor, IsPaused ? btn_start : btn_pause);
                 createFromView(btnFancyReport, Color.Pink, Properties.Resources.btn_speak);
-                createFromView(btnFancyExit, Color.Red, Properties.Resources.btn_exit);
+                createFromView(btnFancyPause, IsPaused ? playColor : pauseColor, IsPaused ? btn_start : btn_pause);
                 createFromView(btnFancyToggle, IsClockMode ? clockColor : choroColor, IsClockMode ? btn_clock : btn_choro);
+                createFromView(btnFancyExit, Color.Red, Properties.Resources.btn_exit);
+
 
                 stringarea = new RectangleF(rapArea.Left, rapArea.Top, rapArea.Width, rapArea.Height);
                 StringFormat sf = new StringFormat();
@@ -444,14 +445,7 @@ namespace Watch
                 thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, Brushes.Red, stringarea, centerformat);
             }
 
-            
-            
-            
-
             SetBits((Bitmap)this.thisImage);
-
-
-
         }
 
         int dx = 0, dy = 0;
@@ -584,26 +578,12 @@ namespace Watch
             IsClockMode = false;
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             renderTimer.Enabled = (WindowState != FormWindowState.Minimized);
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void clocksize_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        
         SRead speech = new SRead();
 
         private void toolStripMenuItem9_Click(object sender, EventArgs e)
@@ -782,8 +762,11 @@ namespace Watch
         private void picClockFace_MouseEnter(object sender, EventArgs e)
         {
             if (hideBtnTimer.Enabled) { return; }
+            float i = 0;
             foreach (RoundButton button in buttons.Values) {
                 button.startAnimation(picClockFace.Left+ centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y,button.r,48,true,Interpolator.OVERSHOOT);
+                button.position -= i * 0.05f;
+                i += 1f;
             }
             btnAvailable = true;
             hideBtnTimer.Enabled = true;
@@ -807,9 +790,12 @@ namespace Watch
                 hideCd--;
                 if (hideCd == 5) {
                     btnAvailable = false;
+                    float i = 0;
                     foreach (RoundButton button in buttons.Values)
                     {
-                        button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48, false, Interpolator.ANTICIPATE);
+                        button.startAnimation(button.x, button.y, button.r, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, 48+i*6, false, Interpolator.ANTICIPATE);
+                        button.position -= i * 0.05f;
+                        i += 1f;
                     }
                 }
                 if (hideCd < 0) {
@@ -901,7 +887,7 @@ namespace Watch
             }
             float destX, destY, destRadius;
             float fromX, fromY, fromRadius;
-            float position = 0;
+            public float position = 0;
             
             bool finalStatus = true;
             float speed = 0.025f;
