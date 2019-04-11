@@ -777,6 +777,7 @@ namespace Watch
                 {
                     button.startAnimation(picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, button.r, button.x, button.y, button.r, 48, true, Interpolator.ANTICIPATE_OVERSHOOT);
                     button.position -= i * 0.08f;
+                    button.position += 0.5f;
                     i += 1f;
                 }
                 showCd = 6;
