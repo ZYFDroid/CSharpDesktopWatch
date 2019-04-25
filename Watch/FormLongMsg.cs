@@ -12,9 +12,24 @@ namespace Watch
 {
     public partial class FormLongMsg : Form
     {
-        public FormLongMsg()
+        Form frmOwner;
+        Boolean ownerTopMost;
+        public FormLongMsg(Form owner)
         {
+            frmOwner = owner;
+            ownerTopMost = owner.TopMost;
+            owner.TopMost = false;
             InitializeComponent();
+        }
+
+        private void FormLongMsg_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormLongMsg_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmOwner.TopMost = ownerTopMost;
         }
     }
 }

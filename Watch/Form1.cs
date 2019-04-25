@@ -490,18 +490,25 @@ namespace Watch
 
         private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (getTotalTime() != 0)
                 {
+                    
                     if (MessageBox.Show("是否覆盖当前的计时？", "打开计时", MessageBoxButtons.YesNo) != DialogResult.Yes) { return; }
+                    
                 }
                 loadTime(openFileDialog1.FileName);
             }
+            this.TopMost = tmp;
         }
 
         private void 保存ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (getTotalTime() == 0)
@@ -513,16 +520,20 @@ namespace Watch
                 MessageBox.Show("保存成功");
 
             }
+            this.TopMost = tmp;
         }
 
         private void 重置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             if (MessageBox.Show("是否重置计时？", "是否重置计时", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 File.Delete(tempFilename);
                 timers.Clear();
                 toolStripMenuItem3.Enabled = true;
             }
+            this.TopMost = tmp;
         }
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
@@ -532,13 +543,18 @@ namespace Watch
 
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             MessageBox.Show("该计时器通过保存每次开始和停止的时间来实现在不启用程序的情况下持续计时，因此计时器启动之后，即使程序关闭、电脑关机，也能继续准确计时，计时过程中请不要修改系统时间。临时计时文件保存在程序目录下的" + tempFilename + "中\r\n可以保存和打开已有的计时器记录，包括已完成计时的以及正在计时的\r\n\r\n怀表版计时器和普通版计时器存档通用", "非易失性计时器帮助");
-
+            this.TopMost = tmp;
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             MessageBox.Show("非易失性计时器\r\n版本 " + Application.ProductVersion + " 怀表版\r\nZYFDroid Assistant Technology", "关于非易失性计时器");
+            this.TopMost = tmp;
         }
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
@@ -615,6 +631,8 @@ namespace Watch
 
         private void mnuRecordTimeComment_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             bool paused = IsPaused;
             bool haveTime = timers.Count > 0;
             if (!haveTime) { MessageBox.Show("尚未开始计时"); return; }
@@ -636,7 +654,7 @@ namespace Watch
 
 
             string msg;
-            InputBox ipb = new InputBox();
+            InputBox ipb = new InputBox(this);
             if (ipb.GetInput(out msg) == DialogResult.OK) {
                 (timers[timers.Count - 1]).comment = msg;
             }
@@ -647,10 +665,13 @@ namespace Watch
                 timers.Add(timeObj);
             }
             saveTime(tempFilename);
+            this.TopMost = tmp;
         }
 
         private void mnuShowReport_Click(object sender, EventArgs e)
         {
+            bool tmp = this.TopMost;
+            this.TopMost = false;
             StringBuilder sb = new StringBuilder();
             if (timers.Count == 0) { MessageBox.Show("尚未开始计时"); return; }
             sb.Append(">>>计时开始>>>").Append("\r\n");
@@ -680,7 +701,7 @@ namespace Watch
             else {
                 sb.Append("[").Append(longToTimeStr(time)).Append("] <<<计时尚未结束<<<");
             }
-            FormLongMsg flm = new FormLongMsg();
+            FormLongMsg flm = new FormLongMsg(this);
             flm.textBox1.Text = sb.ToString();
             flm.textBox1.ReadOnly = true;
             Application.DoEvents();
@@ -688,6 +709,7 @@ namespace Watch
             flm.textBox1.SelectionLength = 0;
             flm.ShowDialog();
             flm.Dispose();
+            this.TopMost = tmp;
         }
 
         public string longToTimeStr(long input)

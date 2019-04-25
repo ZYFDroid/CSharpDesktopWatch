@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("WatchXA")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("一个精美的具有计时器功能的桌面时钟挂件")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("china")]
+[assembly: AssemblyCompany("ZYFDroid")]
 [assembly: AssemblyProduct("WatchXA")]
-[assembly: AssemblyCopyright("Copyright © china 2019")]
+[assembly: AssemblyCopyright("ZYFDroid")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.0.0.1")]
+[assembly: AssemblyFileVersion("2.0.0.1")]

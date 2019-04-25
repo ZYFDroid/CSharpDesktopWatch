@@ -50,6 +50,8 @@
             this.Name = "FormLongMsg";
             this.ShowIcon = false;
             this.Text = "显示报告";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLongMsg_FormClosed);
+            this.Load += new System.EventHandler(this.FormLongMsg_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

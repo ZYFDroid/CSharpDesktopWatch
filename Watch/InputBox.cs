@@ -12,8 +12,13 @@ namespace Watch
 {
     public partial class InputBox : Form
     {
-        public InputBox()
+        Form frmOwner;
+        Boolean ownerTopMost;
+        public InputBox(Form owner)
         {
+            frmOwner = owner;
+            ownerTopMost = owner.TopMost;
+            owner.TopMost = false;
             InitializeComponent();
         }
 
@@ -50,6 +55,11 @@ namespace Watch
                 textBox1.Text = textBox1.Text.Replace("\r", "").Replace("\n", "");
                 DialogResult = DialogResult.OK;
             }
+        }
+
+        private void InputBox_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            frmOwner.TopMost = ownerTopMost;
         }
     }
 }
