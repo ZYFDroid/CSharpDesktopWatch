@@ -20,6 +20,9 @@ namespace Watch
         Image thisImage;
         Graphics thisGraphics;
 
+        public static int pTop = 0;
+        public static int pLeft = 0;
+
         public class TimeSpot {
             public long timePosition;
             public string comment;
@@ -383,12 +386,16 @@ namespace Watch
                 createFromView(btnFancyMin, Color.FromArgb(0x7f7faf), Properties.Resources.btn_minimized);
 
 
-                stringarea = new RectangleF(rapArea.Left, rapArea.Top, rapArea.Width, rapArea.Height);
+                stringarea = new RectangleF(rapArea.Left + pLeft, rapArea.Top + pTop, rapArea.Width, rapArea.Height);
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 centerformat = sf;
                 GC.Collect();
                 inited = true;
+
+                pLeft = (this.Width - this.ClientSize.Width) / 2;
+                pTop = (this.Height - this.ClientSize.Height) - pLeft;
+
             }
 
             
@@ -407,7 +414,7 @@ namespace Watch
             }
 
 
-            this.thisGraphics.DrawImage(clockface, picClockFace.Left, picClockFace.Top);
+            this.thisGraphics.DrawImage(clockface, picClockFace.Left+pLeft, picClockFace.Top+pTop);
 
             if (IsClockMode)
             {
@@ -430,16 +437,16 @@ namespace Watch
             bool ampm = hour % 24 >= 12;
             string days = day == 1 ? " DAY\r\n" : " DAYS\r\n";
 
-            drawRotateImg(hand_millisec, milsec * 0.36f, thisGraphics, picClockFace.Left + millisecOption.Left + millisecOption.Width / 2, picClockFace.Top+ millisecOption.Top + millisecOption.Height / 2);
+            drawRotateImg(hand_millisec, milsec * 0.36f, thisGraphics, picClockFace.Left + millisecOption.Left + millisecOption.Width / 2 + pLeft, picClockFace.Top+ millisecOption.Top + millisecOption.Height / 2+pTop);
 
-            drawRotateImg(hand_hour_shadow, mhour * 30, thisGraphics,picClockFace.Left+ centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min_shadow, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec_shadow, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4, picClockFace.Top + centerptr.Top + 4, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_hour_shadow, mhour * 30, thisGraphics,picClockFace.Left+ centerptr.Left + 4+pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_min_shadow, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_sec_shadow, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
 
 
-            drawRotateImg(hand_hour, mhour * 30, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left, picClockFace.Top + centerptr.Top, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_hour, mhour * 30, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_min, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
+            drawRotateImg(hand_sec, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
 
             
             if (!IsClockMode && hour >= 12)
@@ -988,10 +995,14 @@ namespace Watch
                     mx = this.x;my = this.y;mr = this.r;
                 }
 
-                rectf.X = mx - mr;rectf.Y = my - mr;rectf.Width = mr * 2;rectf.Height = mr * 2;
+                rectf.X = mx - mr +pLeft;
+                rectf.Y = my - mr+pTop;
+                rectf.Width = mr * 2;rectf.Height = mr * 2;
                 g.FillEllipse(b, rectf);
                 mr = mr * 0.50f;
-                rectf.X = mx - mr; rectf.Y = my - mr; rectf.Width = mr * 2; rectf.Height = mr * 2;
+                rectf.X = mx - mr+pLeft;
+                rectf.Y = my - mr+pTop;
+                rectf.Width = mr * 2; rectf.Height = mr * 2;
                 g.DrawImage(btnImage, rectf);
             }
 
