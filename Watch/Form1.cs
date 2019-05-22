@@ -12,12 +12,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using MyGDIFramework;
 
 namespace Watch
 {
     public partial class Form1 : Form
     {
-        Image thisImage;
         Graphics thisGraphics;
 
         public static int pTop = 0;
@@ -133,11 +133,11 @@ namespace Watch
         {
             InitializeComponent();
         }
-
+        GdiSystem GDI;
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.thisImage = new Bitmap(this.Width, this.Height);
-            this.thisGraphics = Graphics.FromImage(thisImage);
+            GDI = new GdiSystem(this);
+            this.thisGraphics = GDI.Graphics;
             this.thisGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
             this.thisGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             this.thisGraphics.Clear(Color.FromArgb(0x007f7f00));
@@ -164,134 +164,8 @@ namespace Watch
 
         #region FormEffect
 
-        public void drawRotateImg(Image img, float angle, Graphics g, float centerX, float centerY)
-        {
-            drawRotateImg(img, angle, g, centerX, centerY, img.Width, img.Height);
-        }
-
-        public void drawRotateImg(Image img, float angle, Graphics g, float centerX, float centerY, float imgW, float imgH)
-        {
-            float width = imgW;
-            float height = imgH;
-            Matrix mtrx = new Matrix();
-            mtrx.RotateAt(angle, new PointF((width / 2), (height / 2)), MatrixOrder.Append);
-            //得到旋转后的矩形
-            GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new RectangleF(0f, 0f, width, height));
-            RectangleF rct = path.GetBounds(mtrx);
-            Point Offset = new Point((int)(rct.Width - width) / 2, (int)(rct.Height - height) / 2);
-            //构造图像显示区域：让图像的中心与窗口的中心点一致
-            RectangleF rect = new RectangleF(-width / 2 + centerX, -height / 2 + centerY, (int)width, (int)height);
-            PointF center = new PointF((int)(rect.X + rect.Width / 2), (int)(rect.Y + rect.Height / 2));
-            g.TranslateTransform(center.X, center.Y);
-            g.RotateTransform(angle);
-            //恢复图像在水平和垂直方向的平移
-            g.TranslateTransform(-center.X, -center.Y);
-            g.DrawImage(img, rect);
-            //重至绘图的所有变换
-            g.ResetTransform();
-        }
-
-
-        public void drawAlphaImage(Graphics g, Image image, float x, float y, float w, float h, float alpha)
-        {
-            if (alpha >= 0.999)
-            {
-                g.DrawImage(image, x, y, w, h);
-                return;
-            }
-            g.DrawImage(image, new Rectangle((int)x, (int)y, (int)w, (int)h), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, alphaImage(alpha));
-        }
-        ImageAttributes alphaAttrs = new ImageAttributes();
-        ColorMatrix cmx = new ColorMatrix(new float[][]{
-                new float[5]{ 1,0,0,0,0 },
-                new float[5]{ 0,1,0,0,0 },
-                new float[5]{ 0,0,1,0,0 },
-                new float[5]{ 0,0,0,0.5f,0 },
-                new float[5]{ 0,0,0,0,0 }
-            });
-        public ImageAttributes alphaImage(float alpha)
-        {
-            cmx.Matrix33 = alpha;
-            alphaAttrs.SetColorMatrix(cmx, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            return alphaAttrs;
-        }
-
-
-        bool haveHandle = false;
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            e.Cancel = false;
-            base.OnClosing(e);
-            haveHandle = false;
-        }
-
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            InitializeStyles();
-            base.OnHandleCreated(e);
-            haveHandle = true;
-        }
-
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cParms = base.CreateParams;
-                cParms.ExStyle |= 0x00080000; // WS_EX_LAYERED
-                return cParms;
-            }
-        }
-
-
-        private void InitializeStyles()
-        {
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            SetStyle(ControlStyles.UserPaint, true);
-            UpdateStyles();
-        }
-
-        public void SetBits(Bitmap bitmap)
-        {
-            if (!haveHandle) return;
-
-            if (!Bitmap.IsCanonicalPixelFormat(bitmap.PixelFormat) || !Bitmap.IsAlphaPixelFormat(bitmap.PixelFormat))
-                throw new ApplicationException("The picture must be 32bit picture with alpha channel.");
-
-            IntPtr oldBits = IntPtr.Zero;
-            IntPtr screenDC = Win32.GetDC(IntPtr.Zero);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr memDc = Win32.CreateCompatibleDC(screenDC);
-
-            try
-            {
-                Win32.Point topLoc = new Win32.Point(Left, Top);
-                Win32.Size bitMapSize = new Win32.Size(bitmap.Width, bitmap.Height);
-                Win32.BLENDFUNCTION blendFunc = new Win32.BLENDFUNCTION();
-                Win32.Point srcLoc = new Win32.Point(0, 0);
-
-                hBitmap = bitmap.GetHbitmap(Color.FromArgb(0));
-                oldBits = Win32.SelectObject(memDc, hBitmap);
-
-                blendFunc.BlendOp = Win32.AC_SRC_OVER;
-                blendFunc.SourceConstantAlpha = 255;
-                blendFunc.AlphaFormat = Win32.AC_SRC_ALPHA;
-                blendFunc.BlendFlags = 0;
-
-                Win32.UpdateLayeredWindow(Handle, screenDC, ref topLoc, ref bitMapSize, memDc, ref srcLoc, 0, ref blendFunc, Win32.ULW_ALPHA);
-            }
-            finally
-            {
-                if (hBitmap != IntPtr.Zero)
-                {
-                    Win32.SelectObject(memDc, oldBits);
-                    Win32.DeleteObject(hBitmap);
-                }
-                Win32.ReleaseDC(IntPtr.Zero, screenDC);
-                Win32.DeleteDC(memDc);
-            }
-        }
-
+    
+       
         #endregion
 
         Process me = Process.GetCurrentProcess();
@@ -346,6 +220,7 @@ namespace Watch
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
+
             if (!inited)
             {
                 Bitmap tmp;
@@ -437,16 +312,16 @@ namespace Watch
             bool ampm = hour % 24 >= 12;
             string days = day == 1 ? " DAY\r\n" : " DAYS\r\n";
 
-            drawRotateImg(hand_millisec, milsec * 0.36f, thisGraphics, picClockFace.Left + millisecOption.Left + millisecOption.Width / 2 + pLeft, picClockFace.Top+ millisecOption.Top + millisecOption.Height / 2+pTop);
+            DrawUtils.drawRotateImg(thisGraphics,hand_millisec, milsec * 0.36f, picClockFace.Left + millisecOption.Left + millisecOption.Width / 2 + pLeft, picClockFace.Top+ millisecOption.Top + millisecOption.Height / 2+pTop);
 
-            drawRotateImg(hand_hour_shadow, mhour * 30, thisGraphics,picClockFace.Left+ centerptr.Left + 4+pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min_shadow, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec_shadow, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_hour_shadow, mhour * 30,picClockFace.Left+ centerptr.Left + 4+pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_min_shadow, mmin * 6, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_sec_shadow, msec * 6, picClockFace.Left + centerptr.Left + 4 + pLeft, picClockFace.Top + centerptr.Top + 4 + pTop, clocksize.Width, clocksize.Height);
 
 
-            drawRotateImg(hand_hour, mhour * 30, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_min, mmin * 6, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
-            drawRotateImg(hand_sec, msec * 6, thisGraphics, picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_hour, mhour * 30,  picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_min, mmin * 6,  picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
+            DrawUtils.drawRotateImg(thisGraphics, hand_sec, msec * 6,  picClockFace.Left + centerptr.Left + pLeft, picClockFace.Top + centerptr.Top + pTop, clocksize.Width, clocksize.Height);
 
             
             if (!IsClockMode && hour >= 12)
@@ -454,7 +329,7 @@ namespace Watch
                 thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, Brushes.Red, stringarea, centerformat);
             }
 
-            SetBits((Bitmap)this.thisImage);
+            GDI.UpdateWindow();
         }
 
         int dx = 0, dy = 0;
@@ -1072,74 +947,6 @@ namespace Watch
         }
     }
 
-
-    #region Win32
-    internal class Win32
-    {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Size
-        {
-            public Int32 cx;
-            public Int32 cy;
-
-            public Size(Int32 x, Int32 y)
-            {
-                cx = x;
-                cy = y;
-            }
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct BLENDFUNCTION
-        {
-            public byte BlendOp;
-            public byte BlendFlags;
-            public byte SourceConstantAlpha;
-            public byte AlphaFormat;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct Point
-        {
-            public Int32 x;
-            public Int32 y;
-
-            public Point(Int32 x, Int32 y)
-            {
-                this.x = x;
-                this.y = y;
-            }
-        }
-
-        public const byte AC_SRC_OVER = 0;
-        public const Int32 ULW_ALPHA = 2;
-        public const byte AC_SRC_ALPHA = 1;
-
-        [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
-
-        [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetDC(IntPtr hWnd);
-
-        [DllImport("gdi32.dll", ExactSpelling = true)]
-        public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObj);
-
-        [DllImport("user32.dll", ExactSpelling = true)]
-        public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-        [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern int DeleteDC(IntPtr hDC);
-
-        [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern int DeleteObject(IntPtr hObj);
-
-        [DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern int UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize, IntPtr hdcSrc, ref Point pptSrc, Int32 crKey, ref BLENDFUNCTION pblend, Int32 dwFlags);
-
-        [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr ExtCreateRegion(IntPtr lpXform, uint nCount, IntPtr rgnData);
-    }
-    #endregion
 
 
     public class SRead

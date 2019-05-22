@@ -77,6 +77,7 @@
     <Compile Include="FormLongMsg.Designer.cs">
       <DependentUpon>FormLongMsg.cs</DependentUpon>
     </Compile>
+    <Compile Include="GdiSystem.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
