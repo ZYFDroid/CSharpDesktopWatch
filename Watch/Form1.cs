@@ -217,6 +217,16 @@ namespace Watch
         Color choroColor = Color.Orange;
         Color clockColor = Color.BlueViolet;
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams baseparam=base.CreateParams;
+                baseparam.ExStyle |= 0x80000;
+                return baseparam;
+            }
+        }
+
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {

@@ -19,12 +19,9 @@ namespace MyGDIFramework
         public GdiSystem(Form attachForm)
         {
             thisWindow = attachForm;
-            thisWindow.FormBorderStyle = FormBorderStyle.None;
             if (attachForm.Handle != IntPtr.Zero)
             {
-                int windowLong = Win32.GetWindowLong(thisWindow.Handle, Win32.GWL_EXSTYLE);
-                windowLong |= Win32.WS_EX_LAYERED;
-                Win32.SetWindowLong(thisWindow.Handle, Win32.GWL_EXSTYLE, windowLong);
+               
             }
             else
             {
