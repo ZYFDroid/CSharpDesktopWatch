@@ -303,10 +303,12 @@ namespace Watch
             {
                 longToTime(getTotalTime());
             }
-            float mhour = hour + minute / 60f + second / 3600f;
-            float mmin = minute + second / 60f + millisecond / 60000f;
-            float msec = second + millisecond / 1000f;
-            float milsec = millisecond;
+            smooth(
+                hour + minute / 60f + second / 3600f,
+                minute + second / 60f + millisecond / 60000f,
+                second + millisecond / 1000f,
+                millisecond);
+
 
             int day = hour / 24;
             bool ampm = hour % 24 >= 12;
@@ -331,6 +333,32 @@ namespace Watch
 
             GDI.UpdateWindow();
         }
+
+        float mhour = 0, mmin = 0, msec = 0, milsec = 0;
+
+        float resistance = 0.18f;
+
+        void smooth(float hour, float minute, float second, float mill) {
+            while (hour > 12) { hour -= 12; }
+            if (hour - mhour < 0) { hour += 12; }
+            if (minute - mmin < 0) {minute += 60; }
+            if (second - msec < 0) {second+= 60; }
+            if (mill-milsec  < 0) { mill += 1000; }
+            
+            
+
+            mhour = mhour + (hour - mhour) * resistance;
+            mmin = mmin + (minute - mmin) * resistance;
+            msec = msec + (second - msec) * resistance;
+            milsec = milsec + (mill - milsec) * resistance;
+
+            if (milsec > 1000) { milsec -= 1000; };
+            if (msec > 60) { msec -= 60; };
+            if (mmin > 60) { mmin -= 60; };
+            if (mhour > 12) { mhour -= 12; }
+        }
+
+
 
         int dx = 0, dy = 0;
         bool clickdown = false;
