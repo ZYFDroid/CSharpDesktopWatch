@@ -346,21 +346,20 @@ namespace Watch
 
         float mhour = 0, mmin = 0, msec = 0, milsec = 0;
 
-        float resistance = 0.18f;
+        float resistance = 0.05f;
 
         void smooth(float hour, float minute, float second, float mill) {
+
             while (hour > 12) { hour -= 12; }
-            if (hour - mhour < 0) { hour += 12; }
-            if (minute - mmin < 0) {minute += 60; }
-            if (second - msec < 0) {second+= 60; }
-            if (mill-milsec  < 0) { mill += 1000; }
-            
-            
+            if (hour - mhour < -6f) { hour += 12; }
+            if (minute - mmin < -30f) {minute += 60; }
+            if (second - msec < -30f) {second+= 60; }
+            if (mill-milsec  < -500f) { mill += 1000; }
 
             mhour = mhour + (hour - mhour) * resistance;
             mmin = mmin + (minute - mmin) * resistance;
             msec = msec + (second - msec) * resistance;
-            milsec = milsec + (mill - milsec) * resistance;
+            milsec = milsec + (mill - milsec) * resistance*5;
 
             if (milsec > 1000) { milsec -= 1000; };
             if (msec > 60) { msec -= 60; };
