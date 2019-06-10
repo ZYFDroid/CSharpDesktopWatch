@@ -216,7 +216,7 @@ namespace Watch
         Bitmap btn_clock = Properties.Resources.btn_clocl;
         Color choroColor = Color.Orange;
         Color clockColor = Color.BlueViolet;
-
+        Brush textBrush;
         protected override CreateParams CreateParams
         {
             get
@@ -270,16 +270,18 @@ namespace Watch
                 createFromView(btnFancyExit, Color.Red, Properties.Resources.btn_exit);
                 createFromView(btnFancyMin, Color.FromArgb(0x7f7faf), Properties.Resources.btn_minimized);
 
+                pLeft = (this.Width - this.ClientSize.Width) / 2;
+                pTop = (this.Height - this.ClientSize.Height) - pLeft;
 
-                stringarea = new RectangleF(rapArea.Left + pLeft, rapArea.Top + pTop, rapArea.Width, rapArea.Height);
+                textBrush = new SolidBrush(rapArea.ForeColor);
+                stringarea = new RectangleF(rapArea.Left + pLeft+picClockFace.Left, rapArea.Top + pTop+picClockFace.Top, rapArea.Width, rapArea.Height);
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 centerformat = sf;
                 GC.Collect();
                 inited = true;
 
-                pLeft = (this.Width - this.ClientSize.Width) / 2;
-                pTop = (this.Height - this.ClientSize.Height) - pLeft;
+               
 
             }
 
@@ -338,7 +340,7 @@ namespace Watch
             
             if (!IsClockMode && hour >= 12)
             {
-                thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, Brushes.Red, stringarea, centerformat);
+                thisGraphics.DrawString(day + days + (ampm ? "PM" : "AM"), SystemFonts.DefaultFont, textBrush, stringarea, centerformat);
             }
 
             GDI.UpdateWindow();
@@ -893,7 +895,7 @@ namespace Watch
                 if (!visibility) { return; }
                 if (inAlimation)
                 {
-                    mx = fromX + (destX - fromX) * Interpolator.callInterpolator( position,usingInterpolator);
+                    mx = fromX + (destX - fromX) * Interpolator.callInterpolator(position,usingInterpolator);
                     my = fromY + (destY - fromY) * Interpolator.callInterpolator(position, usingInterpolator);
                     mr = fromRadius + (destRadius - fromRadius) * Interpolator.callInterpolator(position, usingInterpolator);
                     position += speed;
@@ -982,6 +984,7 @@ namespace Watch
             }
             return 0.5f * ((2 * x - 2) * (2 * x - 2) * ((3 + 1) * (2 * x - 2) + 3) + 2);
         }
+        
     }
 
 

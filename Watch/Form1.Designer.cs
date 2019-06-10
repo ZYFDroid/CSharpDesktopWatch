@@ -74,6 +74,7 @@
             this.rapArea = new System.Windows.Forms.Label();
             this.millisecOption = new System.Windows.Forms.PictureBox();
             this.centerptr = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.picClockFace.SuspendLayout();
@@ -357,6 +358,7 @@
             this.btnFancyReset.Size = new System.Drawing.Size(60, 60);
             this.btnFancyReset.TabIndex = 12;
             this.btnFancyReset.Text = "重置按钮";
+            this.toolTip1.SetToolTip(this.btnFancyReset, "重置计时器\r\n点击可重置计时器并清空已记录的内容");
             this.btnFancyReset.UseVisualStyleBackColor = true;
             this.btnFancyReset.Visible = false;
             this.btnFancyReset.Click += new System.EventHandler(this.btnFancyReset_Click);
@@ -372,6 +374,7 @@
             this.btnFancyMin.Size = new System.Drawing.Size(60, 60);
             this.btnFancyMin.TabIndex = 12;
             this.btnFancyMin.Text = "最小化按钮";
+            this.toolTip1.SetToolTip(this.btnFancyMin, "最小化计时器\r\n点击可最小化计时器");
             this.btnFancyMin.UseVisualStyleBackColor = true;
             this.btnFancyMin.Click += new System.EventHandler(this.btnFancyMin_Click);
             this.btnFancyMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
@@ -387,6 +390,7 @@
             this.btnFancyExit.Size = new System.Drawing.Size(60, 60);
             this.btnFancyExit.TabIndex = 10;
             this.btnFancyExit.Text = "退出按钮";
+            this.toolTip1.SetToolTip(this.btnFancyExit, "退出程序\r\n点击退出程序。本程序在退出之后仍然可以继续计时（通过计算系统时间）");
             this.btnFancyExit.UseVisualStyleBackColor = true;
             this.btnFancyExit.Click += new System.EventHandler(this.btnFancyExit_Click);
             this.btnFancyExit.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
@@ -401,6 +405,7 @@
             this.btnFancyPause.Size = new System.Drawing.Size(60, 60);
             this.btnFancyPause.TabIndex = 10;
             this.btnFancyPause.Text = "暂停按钮";
+            this.toolTip1.SetToolTip(this.btnFancyPause, "暂停继续\r\n点击可切换计时器的暂停状态");
             this.btnFancyPause.UseVisualStyleBackColor = true;
             this.btnFancyPause.Visible = false;
             this.btnFancyPause.Click += new System.EventHandler(this.btnFancyPause_Click);
@@ -417,6 +422,7 @@
             this.btnFancyToggle.Size = new System.Drawing.Size(60, 60);
             this.btnFancyToggle.TabIndex = 10;
             this.btnFancyToggle.Text = "切换按钮";
+            this.toolTip1.SetToolTip(this.btnFancyToggle, "切换模式\r\n点击可在时钟模式和计时器模式之间切换，切换到时钟模式不影响计时器计时");
             this.btnFancyToggle.UseVisualStyleBackColor = true;
             this.btnFancyToggle.Click += new System.EventHandler(this.btnFancyToggle_Click);
             this.btnFancyToggle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
@@ -432,6 +438,7 @@
             this.btnFancyReport.Size = new System.Drawing.Size(60, 60);
             this.btnFancyReport.TabIndex = 10;
             this.btnFancyReport.Text = "报时按钮";
+            this.toolTip1.SetToolTip(this.btnFancyReport, "报时\r\n点击将会有语音报时，播报计时器已经过时间或者当前时刻");
             this.btnFancyReport.UseVisualStyleBackColor = true;
             this.btnFancyReport.Click += new System.EventHandler(this.btnFancyReport_Click);
             this.btnFancyReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFancyRecord_MouseDown);
@@ -447,6 +454,7 @@
             this.btnFancyRecord.Size = new System.Drawing.Size(60, 60);
             this.btnFancyRecord.TabIndex = 9;
             this.btnFancyRecord.Text = "记录按钮";
+            this.toolTip1.SetToolTip(this.btnFancyRecord, "记录时间报告\r\n点击按钮在当前计时点插入一个记录。记录可稍后再“查看时间报告”中查看\r\n该按钮在时钟模式下不可用");
             this.btnFancyRecord.UseVisualStyleBackColor = true;
             this.btnFancyRecord.Visible = false;
             this.btnFancyRecord.Click += new System.EventHandler(this.btnFancyRecord_Click);
@@ -462,6 +470,7 @@
             this.button2.Size = new System.Drawing.Size(64, 48);
             this.button2.TabIndex = 3;
             this.button2.Text = "计时按钮";
+            this.toolTip1.SetToolTip(this.button2, "单击切换计时器暂停和继续");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -471,21 +480,23 @@
             // button3
             // 
             this.button3.ContextMenuStrip = this.contextMenuStrip2;
-            this.button3.Location = new System.Drawing.Point(90, 208);
+            this.button3.Location = new System.Drawing.Point(91, 208);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(192, 192);
             this.button3.TabIndex = 6;
             this.button3.Text = "时钟模式右键菜单";
+            this.toolTip1.SetToolTip(this.button3, "右键点击可显示时钟模式菜单");
             this.button3.UseVisualStyleBackColor = true;
             // 
             // clocksize
             // 
             this.clocksize.ContextMenuStrip = this.contextMenuStrip1;
-            this.clocksize.Location = new System.Drawing.Point(90, 208);
+            this.clocksize.Location = new System.Drawing.Point(91, 208);
             this.clocksize.Name = "clocksize";
             this.clocksize.Size = new System.Drawing.Size(192, 192);
             this.clocksize.TabIndex = 1;
             this.clocksize.Text = "尺寸  计时模式右键菜单";
+            this.toolTip1.SetToolTip(this.clocksize, "右键点击可显示计时器模式菜单");
             this.clocksize.UseVisualStyleBackColor = true;
             // 
             // button1
@@ -504,7 +515,7 @@
             // rapArea
             // 
             this.rapArea.BackColor = System.Drawing.Color.Transparent;
-            this.rapArea.ForeColor = System.Drawing.Color.Red;
+            this.rapArea.ForeColor = System.Drawing.Color.Blue;
             this.rapArea.Location = new System.Drawing.Point(137, 268);
             this.rapArea.Name = "rapArea";
             this.rapArea.Size = new System.Drawing.Size(100, 33);
@@ -600,6 +611,7 @@
         private System.Windows.Forms.Button btnFancyPause;
         private System.Windows.Forms.Button btnFancyMin;
         private System.Windows.Forms.Button btnFancyReset;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
