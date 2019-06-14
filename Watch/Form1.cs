@@ -796,7 +796,7 @@ namespace Watch
         {
             if (!btnAvailable) { return; }
             RoundButton rb = buttons[((Control)sender).Name];
-            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r * 1.2f, 10, true, Interpolator.LINEAR);
+            rb.startAnimation(rb.x, rb.y, rb.r, rb.x, rb.y, rb.r * 1.2f, 10, true, Interpolator.BUMP);
             rb.r = rb.r * 1.2f;
         }
 
@@ -947,12 +947,14 @@ namespace Watch
         public const int OVERSHOOT = 1;
         public const int ANTICIPATE = 2;
         public const int ANTICIPATE_OVERSHOOT = 3;
+        public const int BUMP = 4;
         public static float callInterpolator(float x, int type) {
             switch (type) {
                 case LINEAR:return linear(x);
                 case OVERSHOOT:return overshoot(x);
                 case ANTICIPATE:return anticipate(x);
                 case ANTICIPATE_OVERSHOOT:return anticipate_overshoot(x);
+                case BUMP: return bump(x);
                 default:throw new InvalidEnumArgumentException();
             }
         }
@@ -984,7 +986,11 @@ namespace Watch
             }
             return 0.5f * ((2 * x - 2) * (2 * x - 2) * ((3 + 1) * (2 * x - 2) + 3) + 2);
         }
-        
+        public static float bump(float x) {
+            if (x <= 0) { return 0; }
+            if (x >= 1) { return 1; }
+            return ((float)-Math.Cos(2.5 * Math.PI * x)) * (1 - (float)Math.Sqrt(x)) + 1;
+        }
     }
 
 
