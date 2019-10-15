@@ -146,6 +146,10 @@ namespace Watch
                 loadTime(tempFilename);
                 IsClockMode = false;
             }
+            if (null != Program.requestFileInfo) {
+                loadTime(Program.requestFileInfo.FullName);
+                IsClockMode = false;
+            }
         }
 
 
