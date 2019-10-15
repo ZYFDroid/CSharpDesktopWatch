@@ -7,11 +7,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using MyGDIFramework;
 
 namespace Watch
@@ -609,6 +611,11 @@ namespace Watch
             flm.txtTimeTable.SelectionLength = 0;
             flm.txtTimeParagraph.SelectionStart = 0;
             flm.txtTimeParagraph.SelectionLength = 0;
+
+            makePieChart(flm.chartPie);
+            makePieChart(flm.chartLine);
+            makeFlowChart(flm.chartFlow);
+
             flm.ShowDialog();
             flm.Dispose();
             this.TopMost = tmp;
@@ -648,7 +655,6 @@ namespace Watch
             return timeTable.ToString();
         }
 
-
         string makeTimeParagraph() {
             StringBuilder timeParagrapgh = new StringBuilder();
             timeParagrapgh.Append(">>>计时开始>>>").Append("\r\n");
@@ -687,8 +693,80 @@ namespace Watch
             return timeParagrapgh.ToString();
         }
 
+        void makePieChart(Chart chart)
+        {
+            long time = 0;
+            long lastStartTime = SystemClock;
+
+            long lastNoteTime = 0;
+
+            List<string> xVal = new List<string>();
+            List<int> yVal = new List<int>(); 
+
+            for (int i = 0; i < timers.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    lastStartTime = timers[i].timePosition;
+                }
+                else
+                {
+                    time += (timers[i].timePosition - lastStartTime);
+                    lastStartTime = SystemClock;
+                }
+                if (null != timers[i].comment && "" != timers[i].comment)
+                {
+                    //timeParagrapgh.Append("[").Append(longToTimeStr(time - lastNoteTime)).Append("] ").Append(timers[i].comment).Append("\r\n");
+
+                    xVal.Add(timers[i].comment);
+                    yVal.Add((int)((time - lastNoteTime) / 1000 / 60));
+
+                    lastNoteTime = time;
+                }
+
+            }
+            time += (SystemClock - lastStartTime);
+
+            chart.Series.First().Points.DataBindXY(xVal, yVal);
+        }
 
 
+        void makeFlowChart(Chart chart)
+        {
+            long time = 0;
+            long lastStartTime = SystemClock;
+
+            long lastNoteTime = 0;
+
+            List<string> xVal = new List<string>();
+            List<int> yVal = new List<int>();
+            List<int> yVal2 = new List<int>();
+            for (int i = 0; i < timers.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    lastStartTime = timers[i].timePosition;
+                }
+                else
+                {
+                    time += (timers[i].timePosition - lastStartTime);
+                    lastStartTime = SystemClock;
+                }
+                if (null != timers[i].comment && "" != timers[i].comment)
+                {
+                    //timeParagrapgh.Append("[").Append(longToTimeStr(time - lastNoteTime)).Append("] ").Append(timers[i].comment).Append("\r\n");
+
+                    xVal.Add(timers[i].comment);
+                    yVal.Add((int)((lastNoteTime) / 1000 / 60));
+                    yVal2.Add((int)((time) / 1000 / 60));
+                    lastNoteTime = time;
+                }
+
+            }
+            time += (SystemClock - lastStartTime);
+
+            chart.Series.First().Points.DataBindXY(xVal, yVal,yVal2);
+        }
         public string longToTimeStr(long input)
         {
             if (input < 0)
