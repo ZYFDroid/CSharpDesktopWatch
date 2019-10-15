@@ -595,11 +595,28 @@ namespace Watch
 
         private void mnuShowReport_Click(object sender, EventArgs e)
         {
+
             bool tmp = this.TopMost;
             this.TopMost = false;
-            StringBuilder sb = new StringBuilder();
-            if (timers.Count == 0) { MessageBox.Show("尚未开始计时"); return; }
-            sb.Append(">>>计时开始>>>").Append("\r\n");
+            if (timers.Count == 0) { MessageBox.Show("尚未开始计时"); this.TopMost = tmp; return; }
+            FormLongMsg flm = new FormLongMsg(this);
+            flm.txtTimeTable.Text = makeTimeTable();
+            flm.txtTimeTable.ReadOnly = true;
+            flm.txtTimeParagraph.Text = makeTimeParagraph();
+            flm.txtTimeParagraph.ReadOnly = true;
+            Application.DoEvents();
+            flm.txtTimeTable.SelectionStart = 0;
+            flm.txtTimeTable.SelectionLength = 0;
+            flm.txtTimeParagraph.SelectionStart = 0;
+            flm.txtTimeParagraph.SelectionLength = 0;
+            flm.ShowDialog();
+            flm.Dispose();
+            this.TopMost = tmp;
+        }
+
+        string makeTimeTable() {
+            StringBuilder timeTable = new StringBuilder();
+            timeTable.Append(">>>计时开始>>>").Append("\r\n");
             long time = 0;
             long lastStartTime = SystemClock;
             for (int i = 0; i < timers.Count; i++)
@@ -613,29 +630,64 @@ namespace Watch
                     time += (timers[i].timePosition - lastStartTime);
                     lastStartTime = SystemClock;
                 }
-                if (null != timers[i].comment && "" != timers[i].comment) {
-                    sb.Append("[").Append(longToTimeStr(time)).Append("] ").Append(timers[i].comment).Append("\r\n");
+                if (null != timers[i].comment && "" != timers[i].comment)
+                {
+                    timeTable.Append("[").Append(longToTimeStr(time)).Append("] ").Append(timers[i].comment).Append("\r\n");
                 }
 
             }
             time += (SystemClock - lastStartTime);
-            if (IsPaused)
+            if (!IsPaused)
             {
-                sb.Append("<<<计时结束<<<");
+                timeTable.Append("<<<计时尚未结束<<<");
             }
-            else {
-                sb.Append("[").Append(longToTimeStr(time)).Append("] <<<计时尚未结束<<<");
+            else
+            {
+                timeTable.Append("[").Append(longToTimeStr(time)).Append("] <<<计时结束<<<");
             }
-            FormLongMsg flm = new FormLongMsg(this);
-            flm.textBox1.Text = sb.ToString();
-            flm.textBox1.ReadOnly = true;
-            Application.DoEvents();
-            flm.textBox1.SelectionStart = 0;
-            flm.textBox1.SelectionLength = 0;
-            flm.ShowDialog();
-            flm.Dispose();
-            this.TopMost = tmp;
+            return timeTable.ToString();
         }
+
+
+        string makeTimeParagraph() {
+            StringBuilder timeParagrapgh = new StringBuilder();
+            timeParagrapgh.Append(">>>计时开始>>>").Append("\r\n");
+            long time = 0;
+            long lastStartTime = SystemClock;
+
+            long lastNoteTime = 0;
+
+            for (int i = 0; i < timers.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    lastStartTime = timers[i].timePosition;
+                }
+                else
+                {
+                    time += (timers[i].timePosition - lastStartTime);
+                    lastStartTime = SystemClock;
+                }
+                if (null != timers[i].comment && "" != timers[i].comment)
+                {
+                    timeParagrapgh.Append("[").Append(longToTimeStr(time-lastNoteTime)).Append("] ").Append(timers[i].comment).Append("\r\n");
+                    lastNoteTime = time;
+                }
+
+            }
+            time += (SystemClock - lastStartTime);
+            if (!IsPaused)
+            {
+                timeParagrapgh.Append("<<<计时尚未结束<<<");
+            }
+            else
+            {
+                timeParagrapgh.Append("[").Append(longToTimeStr(time)).Append("] <<<计时结束，总时间<<<");
+            }
+            return timeParagrapgh.ToString();
+        }
+
+
 
         public string longToTimeStr(long input)
         {
