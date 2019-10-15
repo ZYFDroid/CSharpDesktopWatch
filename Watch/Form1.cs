@@ -741,6 +741,7 @@ namespace Watch
             List<string> xVal = new List<string>();
             List<int> yVal = new List<int>();
             List<int> yVal2 = new List<int>();
+            List<int> yVal3 = new List<int>();
             for (int i = 0; i < timers.Count; i++)
             {
                 if (i % 2 == 0)
@@ -759,13 +760,14 @@ namespace Watch
                     xVal.Add(timers[i].comment);
                     yVal.Add((int)((lastNoteTime) / 1000 / 60));
                     yVal2.Add((int)((time) / 1000 / 60));
+                    yVal3.Add((int)((time - lastNoteTime) / 60 / 1000));
                     lastNoteTime = time;
                 }
 
             }
             time += (SystemClock - lastStartTime);
 
-            chart.Series.First().Points.DataBindXY(xVal, yVal,yVal2);
+            chart.Series.First().Points.DataBindXY(xVal, yVal,yVal2,yVal3);
         }
         public string longToTimeStr(long input)
         {

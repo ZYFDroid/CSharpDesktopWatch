@@ -45,8 +45,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chartPie = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.chartLine = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.chartFlow = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -54,19 +54,20 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartPie)).BeginInit();
             this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartLine)).BeginInit();
+            this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartFlow)).BeginInit();
             this.SuspendLayout();
             // 
             // txtTimeTable
             // 
             this.txtTimeTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTimeTable.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtTimeTable.Location = new System.Drawing.Point(3, 3);
             this.txtTimeTable.Multiline = true;
             this.txtTimeTable.Name = "txtTimeTable";
             this.txtTimeTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTimeTable.Size = new System.Drawing.Size(469, 458);
+            this.txtTimeTable.Size = new System.Drawing.Size(679, 457);
             this.txtTimeTable.TabIndex = 0;
             // 
             // tabControl1
@@ -80,7 +81,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(483, 490);
+            this.tabControl1.Size = new System.Drawing.Size(693, 489);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -89,7 +90,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(475, 464);
+            this.tabPage1.Size = new System.Drawing.Size(685, 463);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "时刻表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -100,7 +101,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(475, 464);
+            this.tabPage2.Size = new System.Drawing.Size(685, 463);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "时间片";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -108,11 +109,12 @@
             // txtTimeParagraph
             // 
             this.txtTimeParagraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtTimeParagraph.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtTimeParagraph.Location = new System.Drawing.Point(3, 3);
             this.txtTimeParagraph.Multiline = true;
             this.txtTimeParagraph.Name = "txtTimeParagraph";
             this.txtTimeParagraph.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTimeParagraph.Size = new System.Drawing.Size(469, 458);
+            this.txtTimeParagraph.Size = new System.Drawing.Size(679, 457);
             this.txtTimeParagraph.TabIndex = 1;
             // 
             // tabPage3
@@ -121,7 +123,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(475, 464);
+            this.tabPage3.Size = new System.Drawing.Size(685, 463);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "饼图";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -133,7 +135,6 @@
             this.chartPie.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Alignment = System.Drawing.StringAlignment.Center;
             legend1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
-            legend1.Enabled = false;
             legend1.LegendItemOrder = System.Windows.Forms.DataVisualization.Charting.LegendItemOrder.ReversedSeriesOrder;
             legend1.Name = "Legend1";
             legend1.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Tall;
@@ -144,12 +145,11 @@
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series1.IsValueShownAsLabel = true;
-            series1.Label = "#VALX #VAL分钟";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             series1.YValuesPerPoint = 2;
             this.chartPie.Series.Add(series1);
-            this.chartPie.Size = new System.Drawing.Size(469, 458);
+            this.chartPie.Size = new System.Drawing.Size(679, 457);
             this.chartPie.TabIndex = 0;
             this.chartPie.Text = "chart1";
             // 
@@ -159,21 +159,10 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(475, 464);
+            this.tabPage4.Size = new System.Drawing.Size(685, 463);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "折线图";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.chartFlow);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(475, 464);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "瀑布流";
-            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // chartLine
             // 
@@ -203,15 +192,29 @@
             series2.ShadowOffset = 1;
             series2.YValuesPerPoint = 2;
             this.chartLine.Series.Add(series2);
-            this.chartLine.Size = new System.Drawing.Size(469, 458);
+            this.chartLine.Size = new System.Drawing.Size(679, 457);
             this.chartLine.TabIndex = 1;
             this.chartLine.Text = "chart1";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.chartFlow);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(685, 463);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "瀑布流";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // chartFlow
             // 
             chartArea3.AxisX.Interval = 1D;
             chartArea3.AxisX.IsReversed = true;
             chartArea3.AxisX.MajorGrid.Interval = 1D;
+            chartArea3.AxisY.Interval = 15D;
+            chartArea3.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea3.AxisY.IsMarginVisible = false;
             chartArea3.Name = "ChartArea1";
             this.chartFlow.ChartAreas.Add(chartArea3);
             this.chartFlow.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -230,13 +233,13 @@
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.RangeBar;
             series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             series3.IsValueShownAsLabel = true;
-            series3.Label = "#VALY1 - #VALY2";
+            series3.Label = "#VALY3";
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             series3.ShadowOffset = 1;
-            series3.YValuesPerPoint = 2;
+            series3.YValuesPerPoint = 6;
             this.chartFlow.Series.Add(series3);
-            this.chartFlow.Size = new System.Drawing.Size(469, 458);
+            this.chartFlow.Size = new System.Drawing.Size(679, 457);
             this.chartFlow.TabIndex = 2;
             this.chartFlow.Text = "chart1";
             // 
@@ -244,7 +247,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 490);
+            this.ClientSize = new System.Drawing.Size(693, 489);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormLongMsg";
             this.ShowIcon = false;
@@ -260,8 +263,8 @@
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartPie)).EndInit();
             this.tabPage4.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartLine)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartFlow)).EndInit();
             this.ResumeLayout(false);
 
