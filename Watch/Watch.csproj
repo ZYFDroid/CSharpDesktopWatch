@@ -147,6 +147,11 @@
     <None Include="Resources\handsec_shadow.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\error.wav" />
+    <None Include="Resources\success.wav" />
+    <None Include="Resources\ask.wav" />
+    <None Include="Resources\enter3.wav" />
+    <None Include="Resources\click3.wav" />
     <None Include="Design\btn_record.png" />
     <None Include="Design\audio\enter.wav" />
     <None Include="Design\audio\click.wav" />

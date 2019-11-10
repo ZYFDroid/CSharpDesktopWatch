@@ -423,7 +423,7 @@ namespace Watch
             {
                 if (getTotalTime() != 0)
                 {
-                    
+                    askSound.Play();
                     if (MessageBox.Show("是否覆盖当前的计时？", "打开计时", MessageBoxButtons.YesNo) != DialogResult.Yes) { return; }
                     
                 }
@@ -440,10 +440,12 @@ namespace Watch
             {
                 if (getTotalTime() == 0)
                 {
+                    errorSound.Play();
                     MessageBox.Show("计时尚未开始，因此不能保存计时", "保存计时");
                     return;
                 }
                 saveTime(saveFileDialog1.FileName);
+                successSound.Play();
                 MessageBox.Show("保存成功");
 
             }
@@ -454,11 +456,13 @@ namespace Watch
         {
             bool tmp = this.TopMost;
             this.TopMost = false;
-            if (MessageBox.Show("是否重置计时？", "是否重置计时", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            askSound.Play();
+            if (MessageBox.Show("是否重置计时？", "是否重置计时", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 File.Delete(tempFilename);
                 timers.Clear();
                 toolStripMenuItem3.Enabled = true;
+                successSound.Play();
             }
             this.TopMost = tmp;
         }
@@ -473,6 +477,7 @@ namespace Watch
             bool tmp = this.TopMost;
             this.TopMost = false;
             MessageBox.Show("该计时器通过保存每次开始和停止的时间来实现在不启用程序的情况下持续计时，因此计时器启动之后，即使程序关闭、电脑关机，也能继续准确计时，计时过程中请不要修改系统时间。临时计时文件保存在程序目录下的" + tempFilename + "中\r\n可以保存和打开已有的计时器记录，包括已完成计时的以及正在计时的\r\n\r\n怀表版计时器和普通版计时器存档通用", "非易失性计时器帮助");
+
             this.TopMost = tmp;
         }
 
@@ -562,7 +567,7 @@ namespace Watch
             this.TopMost = false;
             bool paused = IsPaused;
             bool haveTime = timers.Count > 0;
-            if (!haveTime) { MessageBox.Show("尚未开始计时"); return; }
+            if (!haveTime) { errorSound.Play(); ; MessageBox.Show("尚未开始计时"); return; }
 
             if (!paused)
             {
@@ -600,7 +605,7 @@ namespace Watch
 
             bool tmp = this.TopMost;
             this.TopMost = false;
-            if (timers.Count == 0) { MessageBox.Show("尚未开始计时"); this.TopMost = tmp; return; }
+            if (timers.Count == 0) { errorSound.Play(); MessageBox.Show("尚未开始计时"); this.TopMost = tmp; return; }
             FormLongMsg flm = new FormLongMsg(this);
             flm.txtTimeTable.Text = makeTimeTable();
             flm.txtTimeTable.ReadOnly = true;
@@ -817,8 +822,11 @@ namespace Watch
 
         }
 
-        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter);
-        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click);
+        SoundPlayer enterSound = new SoundPlayer(Properties.Resources.enter3);
+        SoundPlayer clickSound = new SoundPlayer(Properties.Resources.click3);
+        SoundPlayer askSound = new SoundPlayer(Properties.Resources.ask);
+        SoundPlayer successSound = new SoundPlayer(Properties.Resources.success);
+        SoundPlayer errorSound = new SoundPlayer(Properties.Resources.error);
 
         private void toolStripMenuItem10_MouseEnter(object sender, EventArgs e)
         {

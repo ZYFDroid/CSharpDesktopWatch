@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,6 +28,7 @@ namespace Watch
 
         }
 
+        SoundPlayer successSound = new SoundPlayer(Properties.Resources.success);
 
         public DialogResult GetInput(out string str) {
             DialogResult dr = this.ShowDialog();
@@ -54,12 +56,19 @@ namespace Watch
             if (textBox1.Text.Contains("\r") || textBox1.Text.Contains("\n")) {
                 textBox1.Text = textBox1.Text.Replace("\r", "").Replace("\n", "");
                 DialogResult = DialogResult.OK;
+                successSound.Play();
             }
         }
 
         private void InputBox_FormClosing(object sender, FormClosingEventArgs e)
         {
             frmOwner.TopMost = ownerTopMost;
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            successSound.Play();
         }
     }
 }
