@@ -706,7 +706,7 @@ namespace Watch
             long lastNoteTime = 0;
 
             List<string> xVal = new List<string>();
-            List<int> yVal = new List<int>(); 
+            List<double> yVal = new List<double>(); 
 
             for (int i = 0; i < timers.Count; i++)
             {
@@ -724,7 +724,7 @@ namespace Watch
                     //timeParagrapgh.Append("[").Append(longToTimeStr(time - lastNoteTime)).Append("] ").Append(timers[i].comment).Append("\r\n");
 
                     xVal.Add(timers[i].comment);
-                    yVal.Add((int)((time - lastNoteTime) / 1000 / 60));
+                    yVal.Add(((time - lastNoteTime) / 1000d / 60d));
 
                     lastNoteTime = time;
                 }
@@ -744,9 +744,9 @@ namespace Watch
             long lastNoteTime = 0;
 
             List<string> xVal = new List<string>();
-            List<int> yVal = new List<int>();
-            List<int> yVal2 = new List<int>();
-            List<int> yVal3 = new List<int>();
+            List<double> yVal = new  List<double>();
+            List<double> yVal2 = new List<double>();
+            List<double> yVal3 = new List<double>();
             for (int i = 0; i < timers.Count; i++)
             {
                 if (i % 2 == 0)
@@ -763,9 +763,9 @@ namespace Watch
                     //timeParagrapgh.Append("[").Append(longToTimeStr(time - lastNoteTime)).Append("] ").Append(timers[i].comment).Append("\r\n");
 
                     xVal.Add(timers[i].comment);
-                    yVal.Add((int)((lastNoteTime) / 1000 / 60));
-                    yVal2.Add((int)((time) / 1000 / 60));
-                    yVal3.Add((int)((time - lastNoteTime) / 60 / 1000));
+                    yVal.Add(((lastNoteTime) / 1000d / 60d));
+                    yVal2.Add(((time) / 1000d / 60d));
+                    yVal3.Add(((time - lastNoteTime) / 60d / 1000d));
                     lastNoteTime = time;
                 }
 

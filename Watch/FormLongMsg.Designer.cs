@@ -145,7 +145,9 @@
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series1.IsValueShownAsLabel = true;
+            series1.Label = "#VAL{N2}分钟";
             series1.Legend = "Legend1";
+            series1.LegendText = "#VALX";
             series1.Name = "Series1";
             series1.YValuesPerPoint = 2;
             this.chartPie.Series.Add(series1);
@@ -185,7 +187,7 @@
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Color = System.Drawing.Color.Red;
             series2.IsValueShownAsLabel = true;
-            series2.Label = "#VAL分钟";
+            series2.Label = "#VAL{N2}分钟";
             series2.LabelAngle = 45;
             series2.Legend = "Legend1";
             series2.Name = "Series1";
@@ -212,7 +214,6 @@
             chartArea3.AxisX.Interval = 1D;
             chartArea3.AxisX.IsReversed = true;
             chartArea3.AxisX.MajorGrid.Interval = 1D;
-            chartArea3.AxisY.Interval = 15D;
             chartArea3.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea3.AxisY.IsMarginVisible = false;
             chartArea3.Name = "ChartArea1";
@@ -233,7 +234,7 @@
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.RangeBar;
             series3.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             series3.IsValueShownAsLabel = true;
-            series3.Label = "#VALY3";
+            series3.Label = "#VALY3{N2}";
             series3.Legend = "Legend1";
             series3.Name = "Series1";
             series3.ShadowOffset = 1;
